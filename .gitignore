@@ -2,7 +2,6 @@
 *.iml
 *.ipr
 *.iws
-*.class
 .idea/
 
 # Maven:
@@ -24,6 +23,7 @@ overlays/
 # NPM:
 /**/node/
 /**/node_modules/
+/**/dist/
 
 # Logs:
 *.log
@@ -61,8 +61,5 @@ overlays/
 .rakeTasks
 
 # Temporary files
-/**/tmp/
-/**/temp/
-
-# Local spring configuration
-/**/resources/config/
+tmp/
+temp/
