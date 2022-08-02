@@ -1,46 +1,48 @@
 ![Status: Active](https://documentation.coremedia.com/badges/badge_status_active.png "Status: Active")
 ![For CoreMedia CMS](https://documentation.coremedia.com/badges/badge_coremedia_cms.png "For CoreMedia CMS")
 
-# Viewtype Configuration
+# Bulk Operations
 
-This extension allows you to configure and define additional property editors for dedicated viewtypes. Let me give you some examples:
-* You have a list of items that you break after a different definable amount of items on mobile and desktop
-* A viewtype requires an additional setting like a look and feel or a background color
+This extension allows you to configure and define bulk operations for content. Let me give you some examples:
+* You have a list of items that you want to tag
+* You want to bulk update the locale of a list of items
 
 ### Examples
 
-#### Tetris
+This extensions adds a litte button to your Studio Library
+![Closed Menu](docs/images/bulk-action-button.png)
 
-![Tetris](docs/images/Tetris.png)
+![Open Menu](docs/images/open-menu.png)
 
-#### Slider
 
-![Slider](docs/images/Slider.png)
+#### Bulk Tagging
+The following bulk tagging actions are available
+* Bulk Tagging for Tags
+* Bulk Tagging for Locations
+* Bulk Tagging for Assets
 
-### Documentation & Tutorial
+![Bulk Tagging](docs/images/bulk-tagging.png)
 
-Read the [documentation](docs/README.md) or on [GitHub Pages](https://github.com/coremedia-contributions/viewtype-configuration/docs) for more information.
+#### Bulk Assigning Product References
+This action allows you to easily add a list of commerce items to e.g. Images
+![Bulk Tagging](docs/images/assigning-assets.png)
+
+#### Search & Replace
+This action allows you to search & replace a text
+![Search & Replace](docs/images/search-and-replace.png)
+
+#### Bulk Update Locale
+This action allows you to bulk update the locale of a list of content items
+![Update Locae.png](docs/images/update-locale.png)
 
 ### Installation
 
-- From the project's root folder, clone this repository as a submodule of the extensions folder. Make sure to use the branch name that matches your workspace version. In addition you will also need the 'color-picker' extensions cause the 'viewtype-configuration' relies on it.
+- From the project's root folder, clone this repository as a submodule of the extensions folder. Make sure to use the branch name that matches your workspace version.
 ```
-git submodule add https://github.com/coremedia-contributions/viewtype-configuration modules/extensions/viewtype-configuration
-git submodule add https://github.com/coremedia-contributions/color-picker  modules/extensions/color-picker 
+git submodule add https://github.com/coremedia-contributions/bulk-operations modules/extensions/bulk-operations
 ```
 
 - Use the extension tool in the root folder of the project to link the modules to your workspace.
  ```
-mvn extensions:sync -f workspace-configuration/extensions -Denable=viewtype-configuration
-mvn extensions:sync -f workspace-configuration/extensions -Denable=color-picker 
+mvn extensions:sync -f workspace-configuration/extensions -Denable=bulk-operations
 ```
-### Configuration in CoreMedia Studio
-To make use of the example view-types in CoreMedia Studio the following steps need to be done
-
-* Navigate to `Options/ViewTypes` choose / create a folder with the name of the content type for which you want to enable the new layout variants.
-  * Create the Layout Variants with a name matching the name you configured in your [ViewTypeConfigurationForm.ts](../apps/studio-client/apps/main/viewtype-configuration-studio-base/src/editors/ViewTypeConfigurationForm.ts).
-  ![Slider](docs/images/StudioConfiguration.png) 
-* Reload the Studio tab in the browser.
-* Apply the new Layout variant to your content
-![Slider](docs/images/UseLayoutVariant.png) 
-

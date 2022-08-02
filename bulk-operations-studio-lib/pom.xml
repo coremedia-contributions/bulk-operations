@@ -4,8 +4,9 @@
 
   <parent>
     <groupId>com.coremedia.blueprint</groupId>
-    <artifactId>studio-server.customizations</artifactId>
+    <artifactId>studio-server.extensions</artifactId>
     <version>1-SNAPSHOT</version>
+    <relativePath>../../../../apps/studio-server/modules/extensions/pom.xml</relativePath>
   </parent>
 
   <artifactId>bulk-operations-studio-lib</artifactId>
