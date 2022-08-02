@@ -31,7 +31,7 @@ class AddProductOrCategoryReferenceWindow extends BulkOperationsWindow {
 
   constructor(config: Config<AddProductOrCategoryReferenceWindow> = null) {
     super((()=> ConfigUtils.apply(Config(AddProductOrCategoryReferenceWindow, {
-      title: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_title,
+      title: BulkOperations_properties.bulk_tag_dialog_ecommerceReference_title,
       iconCls: CoreIcons_properties.research,
       modal: false,
       width: 650,
