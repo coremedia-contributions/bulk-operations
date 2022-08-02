@@ -35,6 +35,7 @@ class BulkOperationsMenuButton extends IconButton {
 
       itemId: "bulkActions",
       iconCls: SvgIconUtil.getIconStyleClassForSvgIcon(icon),
+      ariaLabel: "Bulk Operations",
 
       baseAction: new IconButtonVisibilityAction({ contentValueExpression: config.contentValueExpression }),
       menu: Config(Menu, {
