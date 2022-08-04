@@ -58,7 +58,7 @@ class BulkTagAction extends Action {
 
   #success(response: RemoteServiceMethodResponse): void {
     const contents = as(response.getResponseJSON().modifiedContents, Array);
-    contents.forEach((content: Content): void =>
+    contents.forEach((content: Content) =>
       content.invalidate(),
     );
     const responseCode = as(response.getResponseJSON().errorCode, String);
