@@ -1,57 +1,24 @@
-import Content from "@coremedia/studio-client.cap-rest-client/content/Content";
-import RemoteServiceMethod from "@coremedia/studio-client.client-core-impl/data/impl/RemoteServiceMethod";
-import RemoteServiceMethodResponse
-  from "@coremedia/studio-client.client-core-impl/data/impl/RemoteServiceMethodResponse";
-import ProcessorFactory
-  from "@coremedia/studio-client.main.editor-components/sdk/quickcreate/processing/ProcessorFactory";
-import Action from "@jangaroo/ext-ts/Action";
-import MessageBoxWindow from "@jangaroo/ext-ts/window/MessageBox";
-import { as, bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
-import { AnyFunction } from "@jangaroo/runtime/types";
+import BulkOperationAction from "./BulkOperationAction";
 
-interface BulkUpdateLocaleActionConfig extends Config<Action>, Partial<Pick<BulkUpdateLocaleAction,
-        "selection" |
-        "locale" |
-        "callback"
->> {}
+interface BulkUpdateLocaleActionConfig extends Config<BulkOperationAction>, Partial<Pick<BulkUpdateLocaleAction,
+        "locale">> {
+}
 
-class BulkUpdateLocaleAction extends Action {
+class BulkUpdateLocaleAction extends BulkOperationAction {
 
   declare Config: BulkUpdateLocaleActionConfig;
 
-  selection: Array<Content> = null;
-
   locale: string = null;
 
-  callback: AnyFunction = null;
-
   constructor(config: Config<BulkUpdateLocaleAction> = null) {
-    super((() => {
-      config.handler = bind(this, this.#doBulkUpdateLocale);
-      return config;
-    })());
-
-    this.selection = config.selection;
+    super(config);
     this.locale = config.locale;
-    this.callback = config.callback;
   }
 
-  #doBulkUpdateLocale(): void {
-    const remoteServiceMethod = new RemoteServiceMethod("bulkoperations/updatelocale", "POST", true);
+  protected execBulkOperation(): void {
     const params: any = BulkUpdateLocaleAction.#makeRequestParameters(this.selection, this.locale);
-    remoteServiceMethod.request(params, bind(this, this.#success), ProcessorFactory.onError);
-  }
-
-  #success(response: RemoteServiceMethodResponse): void {
-    const error = as(response.getResponseJSON()["errorCode"], String);
-    if (error) {
-      MessageBoxWindow.getInstance().alert("Update failed", "Ups. Something went wrong.");
-    } else {
-      const modifiedContents = as(response.getResponseJSON()["modifiedContents"], Array);
-      modifiedContents.forEach((content: Content) => content.invalidate());
-      this.callback.call(modifiedContents);
-    }
+    this.execRemoteAction("updatelocale", params);
   }
 
   static #makeRequestParameters(selection: Array<any>, languageTag: string): any {
