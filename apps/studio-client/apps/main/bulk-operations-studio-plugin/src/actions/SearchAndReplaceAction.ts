@@ -34,7 +34,7 @@ class SearchAndReplaceAction extends BulkOperationAction {
     this.properties = config.properties;
   }
 
-  protected execBulkOperation(): void {
+  protected override execBulkOperation(): void {
     const params: any = SearchAndReplaceAction.#makeRequestParameters(this.selection, this.searchFor, this.replaceWith, this.properties);
     this.execRemoteAction("searchandreplace", params);
   }

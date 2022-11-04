@@ -16,7 +16,7 @@ class BulkUpdateLocaleAction extends BulkOperationAction {
     this.locale = config.locale;
   }
 
-  protected execBulkOperation(): void {
+  protected override execBulkOperation(): void {
     const params: any = BulkUpdateLocaleAction.#makeRequestParameters(this.selection, this.locale);
     this.execRemoteAction("updatelocale", params);
   }

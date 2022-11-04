@@ -20,7 +20,7 @@ class AddProductOrCategoryReferenceAction extends BulkOperationAction {
     this.overrideValue = config.overrideValue;
   }
 
-  protected execBulkOperation(): void {
+  protected override execBulkOperation(): void {
     const params: any = AddProductOrCategoryReferenceAction.#makeRequestParameters(this.selection, this.references, this.overrideValue);
     this.execRemoteAction("addorupdatereferences", params);
   }

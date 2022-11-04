@@ -16,7 +16,7 @@ interface BulkOperationActionConfig extends Config<Action>, Partial<Pick<BulkOpe
         "callback">> {
 }
 
-abstract class BulkOperationAction extends Action {
+class BulkOperationAction extends Action {
 
   declare Config: BulkOperationActionConfig;
 
@@ -33,7 +33,9 @@ abstract class BulkOperationAction extends Action {
     this.callback = config.callback;
   }
 
-  protected abstract execBulkOperation(): void;
+  protected execBulkOperation(): void {
+    // Override in subclass
+  };
 
   protected execRemoteAction(bulkAction: string, params: any): void {
     const remoteServiceMethod = new RemoteServiceMethod(`bulkoperations/${bulkAction}`, "POST", true);

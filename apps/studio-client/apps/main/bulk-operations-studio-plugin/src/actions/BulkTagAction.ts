@@ -27,7 +27,7 @@ class BulkTagAction extends BulkOperationAction {
     this.taxonomyPropertyName = config.taxonomyPropertyName;
   }
 
-  protected execBulkOperation(): void {
+  protected override execBulkOperation(): void {
     const params: any = BulkTagAction.#makeRequestParameters(this.selection, this.taxonomyItems, this.taxonomyCheckBoxValue, this.taxonomyPropertyName);
     this.execRemoteAction("tag", params);
   }
