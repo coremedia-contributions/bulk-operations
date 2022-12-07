@@ -19,6 +19,7 @@ import BulkTagAssetsWindow from "./BulkTagAssetsWindow";
 import BulkTagLocationWindow from "./BulkTagLocationWindow";
 import BulkTagSubjectWindow from "./BulkTagSubjectWindow";
 import BulkUpdateLocaleWindow from "./BulkUpdateLocaleWindow";
+import BulkUpdateValidityWindow from "./BulkUpdateValidityWindow";
 import SearchAndReplaceWindow from "./SearchAndReplaceWindow";
 
 interface BulkOperationsMenuButtonConfig extends Config<IconButton>, Partial<Pick<BulkOperationsMenuButton,
@@ -40,6 +41,16 @@ class BulkOperationsMenuButton extends IconButton {
       baseAction: new IconButtonVisibilityAction({ contentValueExpression: config.contentValueExpression }),
       menu: Config(Menu, {
         items: [
+          Config(Item, {
+            iconCls: CoreIcons_properties.locale,
+            text: BulkOperations_properties.bulk_edit_dialog_updateValidity_title,
+            baseAction: new OpenBulkActionWindowAction({
+              contentValueExpression: config.contentValueExpression,
+              multiSelect: true,
+              contentType: "CMTeasable",
+              windowConfig: Config(BulkUpdateValidityWindow),
+            }),
+          }),
           Config(Item, {
             iconCls: CoreIcons_properties.locale,
             text: BulkOperations_properties.bulk_edit_menu_updateLocale_text,

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -82,11 +83,11 @@ public class BulkOperationsResource {
             }
             builder.enter("commerce");
 
-            if(builder.getDescriptor("references") == null) {
+            if (builder.getDescriptor("references") == null) {
               builder.declareStrings("references", Integer.MAX_VALUE, Collections.emptyList());
               localSettings = builder.build();
             }
-            if(overrideValue) {
+            if (overrideValue) {
               builder.set("references", references);
             } else {
               List<String> existingElements = new ArrayList<>(localSettings.getStruct("commerce").getStrings("references"));
@@ -170,6 +171,53 @@ public class BulkOperationsResource {
   /**
    * Bulk-update the provided list of content with the provided locale.
    */
+  @PostMapping(value = "updateValidity", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @SuppressWarnings("unchecked")
+  public BulkOperationsResponse bulkUpdateValidity(@RequestBody @NonNull Map<String, Object> json) throws Exception {
+    List<Content> selection = (List<Content>) json.get("selection");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy-HH:mm");
+
+    String validFromStr = (String) json.get("validFrom");
+    String validToStr = (String) json.get("validTo");
+
+    BulkOperationsResponse result = new BulkOperationsResponse();
+    try {
+      Date validFrom = (!validFromStr.isEmpty()) ? dateFormat.parse(validFromStr) : null;
+      Date validTo = (!validToStr.isEmpty()) ? dateFormat.parse(validToStr) : null;
+      for (Content item : selection) {
+        boolean wasCheckedOut = item.isCheckedOut();
+
+        if (!wasCheckedOut || item.isCheckedOutByCurrentSession()) {
+
+          if (!item.isCheckedOut()) {
+            item.checkOut();
+          }
+          boolean modifiedFrom = updateValidity(item, "validFrom", validFrom);
+          boolean modifiedTo = updateValidity(item, "validTo", validTo);
+          if (modifiedFrom || modifiedTo) {
+            result.getModifiedContents().add(item);
+          }
+          if (!wasCheckedOut) {
+            item.checkIn();
+          }
+        }
+      }
+    } catch (Exception e) {
+      result.setErrorCode(e.getMessage());
+      for (Content item : selection) {
+        if (item.isCheckedOut()) {
+          item.revert();
+        }
+      }
+    }
+
+    return result;
+  }
+
+
+  /**
+   * Bulk-update the provided list of content with the provided locale.
+   */
   @PostMapping(value = "updatelocale", consumes = MediaType.APPLICATION_JSON_VALUE)
   @SuppressWarnings("unchecked")
   public BulkOperationsResponse bulkUpdateLocale(@RequestBody @NonNull Map<String, Object> json) throws Exception {
@@ -206,6 +254,7 @@ public class BulkOperationsResource {
 
     return result;
   }
+
   private void updateTags(List<Content> taxonomies, boolean reset, String taxonomyType, BulkOperationsResponse result, Content item) {
     if (taxonomies != null && !taxonomies.isEmpty()) {
       List<Content> subjectTaxonomies;
@@ -237,6 +286,29 @@ public class BulkOperationsResource {
     if (locale != null && !locale.toLanguageTag().equals(item.getString(LOCALE))) {
       item.set(LOCALE, locale.toLanguageTag());
       updated = true;
+    }
+    return updated;
+  }
+
+  /**
+   * Update the validty of the given content with the provided validFrom and validTo dates.
+   *
+   * @return <code>true</code> if the validty has been updated, <code>false</code> otherwise.
+   */
+  private boolean updateValidity(@NonNull Content item, String property, Date validToFrom) {
+    Calendar cal = Calendar.getInstance();
+    boolean updated = false;
+    if (validToFrom == null) {
+      if (item.get(property) != null) {
+        item.set(property, null);
+        updated = true;
+      }
+    } else {
+      cal.setTime(validToFrom);
+      if (!cal.equals(item.getDate(property))) {
+        item.set(property, cal);
+        updated = true;
+      }
     }
     return updated;
   }
