@@ -40,13 +40,11 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           bindTo: ValueExpressionFactory.createFromValue(this.getModel()),
           itemId: "validFromChooser",
           propertyName: BulkUpdateValidityWindow.VALID_FROM,
-          timeZoneHidden: true,
         }),
         Config(DateTimePropertyField, {
           bindTo: ValueExpressionFactory.createFromValue(this.getModel()),
           itemId: "validToChooser",
           propertyName: BulkUpdateValidityWindow.VALID_TO,
-          timeZoneHidden: true,
         }),
         Config(ItemsList, {
           bindTo: ValueExpressionFactory.create(BulkUpdateValidityWindow.ITEMS, this.getModel()),
