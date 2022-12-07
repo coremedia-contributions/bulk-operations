@@ -10,9 +10,11 @@ import LinkListThumbnailColumn
 import DateTimePropertyField
   from "@coremedia/studio-client.main.editor-components/sdk/premular/fields/DateTimePropertyField";
 import DisplayField from "@jangaroo/ext-ts/form/field/Display";
+import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
 import BulkOperations_properties from "../BulkOperations_properties";
+import BulkUpdateValidityAction from "../actions/BulkUpdateValidityAction";
 import BulkOperationsWindow from "./BulkOperationsWindow";
 import ItemsList from "./ItemsList";
 
@@ -38,6 +40,13 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           bindTo: ValueExpressionFactory.createFromValue(this.getModel()),
           itemId: "validFromChooser",
           propertyName: BulkUpdateValidityWindow.VALID_FROM,
+          timeZoneHidden: true,
+        }),
+        Config(DateTimePropertyField, {
+          bindTo: ValueExpressionFactory.createFromValue(this.getModel()),
+          itemId: "validToChooser",
+          propertyName: BulkUpdateValidityWindow.VALID_TO,
+          timeZoneHidden: true,
         }),
         Config(ItemsList, {
           bindTo: ValueExpressionFactory.create(BulkUpdateValidityWindow.ITEMS, this.getModel()),
@@ -55,13 +64,13 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
   }
 
   override handleOk(): void {
-    /*    const action = new BulkUpdateLocaleAction(Config(BulkUpdateLocaleAction, {
+    const action = new BulkUpdateValidityAction(Config(BulkUpdateValidityAction, {
       selection: this.getModel().get(BulkOperationsWindow.ITEMS),
-      locale: this.getModel().get(BulkUpdateValidityWindow.LOCALE),
+      validFrom: this.getModel().get("properties").get(BulkUpdateValidityWindow.VALID_FROM),
+      validTo: this.getModel().get("properties").get(BulkUpdateValidityWindow.VALID_TO),
       callback: bind(this, this.updateCallback),
     }));
-    action.execute();*/
-    console.log("valid from: " + this.getModel().get(BulkUpdateValidityWindow.VALID_FROM));
+    action.execute();
   }
 
   override getModel(): Bean {
