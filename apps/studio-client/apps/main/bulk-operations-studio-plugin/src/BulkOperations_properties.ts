@@ -9,6 +9,8 @@ interface BulkOperations_properties {
   bulk_edit_dialog_cancelButton_title: string;
   bulk_edit_dialog_updateLocale_title: string;
   bulk_edit_dialog_updateLocale_info: string;
+  bulk_edit_dialog_updateValidity_title: string;
+  bulk_edit_dialog_updateValidity_info: string;
   bulk_edit_dialog_updateLocale_okButton_title: string;
   bulk_edit_dialog_updateLocale_locale_fieldLabel: string;
   bulk_edit_dialog_items_title: string;
@@ -65,6 +67,8 @@ const BulkOperations_properties: BulkOperations_properties = {
   bulk_edit_dialog_updateLocale_okButton_title: "Update",
   bulk_edit_dialog_updateLocale_locale_fieldLabel: "Locale",
   bulk_edit_dialog_items_title: "Content",
+  bulk_edit_dialog_updateValidity_title: "Update Validity",
+  bulk_edit_dialog_updateValidity_info: "Set new validity dates for the selected items.",
 };
 
 export default BulkOperations_properties;
