@@ -1,18 +1,23 @@
 import Bean from "@coremedia/studio-client.client-core/data/Bean";
 import ValueExpressionFactory from "@coremedia/studio-client.client-core/data/ValueExpressionFactory";
 import beanFactory from "@coremedia/studio-client.client-core/data/beanFactory";
+import StatefulDateTimeField from "@coremedia/studio-client.ext.base-components/fields/StatefulDateTimeField";
 import NameColumn from "@coremedia/studio-client.ext.cap-base-components/columns/NameColumn";
 import StatusColumn from "@coremedia/studio-client.ext.cap-base-components/columns/StatusColumn";
 import TypeIconColumn from "@coremedia/studio-client.ext.cap-base-components/columns/TypeIconColumn";
 import LinkListThumbnailColumn
   from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailColumn";
 
-import DateTimePropertyField
-  from "@coremedia/studio-client.main.editor-components/sdk/premular/fields/DateTimePropertyField";
+import Editor_properties from "@coremedia/studio-client.main.editor-components/Editor_properties";
+
+import FormSpacerElement
+  from "@coremedia/studio-client.main.editor-components/sdk/premular/fields/FormSpacerElement";
+import Label from "@jangaroo/ext-ts/form/Label";
 import DisplayField from "@jangaroo/ext-ts/form/field/Display";
 import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
+
 import BulkOperations_properties from "../BulkOperations_properties";
 import BulkUpdateValidityAction from "../actions/BulkUpdateValidityAction";
 import BulkOperationsWindow from "./BulkOperationsWindow";
@@ -28,6 +33,13 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
 
   static readonly VALID_TO: string = "validTo";
 
+  static readonly DEFAULT_TIME_ZONE_IDS: Array<any> = [
+    "Europe/Berlin",
+    "Europe/London",
+    "America/New_York",
+    "America/Los_Angeles",
+  ];
+
   constructor(config: Config<BulkUpdateValidityWindow> = null) {
     super((() => ConfigUtils.apply(Config(BulkUpdateValidityWindow, {
       title: BulkOperations_properties.bulk_edit_dialog_updateValidity_title,
@@ -36,15 +48,24 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           itemId: "infoBox",
           value: BulkOperations_properties.bulk_edit_dialog_updateValidity_info,
         }),
-        Config(DateTimePropertyField, {
-          bindTo: ValueExpressionFactory.createFromValue(this.getModel()),
-          itemId: "validFromChooser",
+        Config(Label, { text: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label }),
+        Config(StatefulDateTimeField, {
+          itemId: "validFrom",
+          ariaLabel: Editor_properties.Date_property_field,
+          timeZoneIds: BulkUpdateValidityWindow.DEFAULT_TIME_ZONE_IDS,
           propertyName: BulkUpdateValidityWindow.VALID_FROM,
+          bindTo: ValueExpressionFactory.create("properties", this.getModel()),
+          timeZoneHidden: true,
         }),
-        Config(DateTimePropertyField, {
-          bindTo: ValueExpressionFactory.createFromValue(this.getModel()),
-          itemId: "validToChooser",
+        Config(FormSpacerElement),
+        Config(Label, { text: BulkOperations_properties.bulk_edit_dialog_updateValidity_validTo_label }),
+        Config(StatefulDateTimeField, {
+          itemId: "validTo",
+          ariaLabel: Editor_properties.Date_property_field,
+          timeZoneIds: BulkUpdateValidityWindow.DEFAULT_TIME_ZONE_IDS,
           propertyName: BulkUpdateValidityWindow.VALID_TO,
+          bindTo: ValueExpressionFactory.create("properties", this.getModel()),
+          timeZoneHidden: true,
         }),
         Config(ItemsList, {
           bindTo: ValueExpressionFactory.create(BulkUpdateValidityWindow.ITEMS, this.getModel()),

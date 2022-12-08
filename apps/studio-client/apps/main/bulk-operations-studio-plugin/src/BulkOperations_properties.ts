@@ -33,6 +33,8 @@ interface BulkOperations_properties {
   bulk_tag_dialog_searchAndReplace_replaceWithEmptyText: string;
   bulk_tag_dialog_searchAndReplace_property_text: string;
   bulk_tag_dialog_searchAndReplace_grid_title: string;
+  bulk_edit_dialog_updateValidity_validFrom_label: string;
+  bulk_edit_dialog_updateValidity_validTo_label: string;
 }
 
 /**
@@ -69,6 +71,8 @@ const BulkOperations_properties: BulkOperations_properties = {
   bulk_edit_dialog_items_title: "Content",
   bulk_edit_dialog_updateValidity_title: "Update Validity",
   bulk_edit_dialog_updateValidity_info: "Set new validity dates for the selected items.",
+  bulk_edit_dialog_updateValidity_validFrom_label: "Valid From",
+  bulk_edit_dialog_updateValidity_validTo_label: "Valid To",
 };
 
 export default BulkOperations_properties;
