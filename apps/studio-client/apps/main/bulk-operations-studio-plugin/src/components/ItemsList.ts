@@ -14,7 +14,7 @@ import ToolbarSkin from "@coremedia/studio-client.ext.ui-components/skins/Toolba
 import Actions_properties from "@coremedia/studio-client.main.editor-components/sdk/actions/Actions_properties";
 import ContentGridPanel from "@coremedia/studio-client.main.editor-components/sdk/components/ContentGridPanel";
 import editorContext from "@coremedia/studio-client.main.editor-components/sdk/editorContext";
-import Column from "@jangaroo/ext-ts/grid/column/Column";
+import GridColumn from "@jangaroo/ext-ts/grid/column/Column";
 import Separator from "@jangaroo/ext-ts/toolbar/Separator";
 import Toolbar from "@jangaroo/ext-ts/toolbar/Toolbar";
 import { bind } from "@jangaroo/runtime";
@@ -25,12 +25,21 @@ import BulkOperations_properties from "../BulkOperations_properties";
 interface ItemsListConfig extends Config<ContentGridPanel>, Partial<Pick<ItemsList, "bindTo" | "selectedVE">> {
 }
 
+const DEFAULT_COLUMNS = [
+  Config(LinkListThumbnailColumn),
+  Config(TypeIconColumn),
+  Config(NameColumn, { flex: 2 }),
+  Config(StatusColumn),
+];
+
 class ItemsList extends CollapsiblePanel {
   declare Config: ItemsListConfig;
 
   bindTo: ValueExpression = null;
 
   selectedVE: ValueExpression = null;
+
+  columns?: GridColumn[] | any;
 
   constructor(config: Config<ItemsList> = null) {
     super((() => ConfigUtils.apply(Config(ItemsList,
@@ -60,18 +69,7 @@ class ItemsList extends CollapsiblePanel {
           viewEnableDrop: true,
           hideValidation: true,
           additionalFields: config.additionalFields,
-          columns: [
-            Config(LinkListThumbnailColumn),
-            Config(TypeIconColumn),
-            Config(NameColumn, { flex: 2 }),
-            Config(Column, {
-              header: "Locale",
-              stateId: "locale",
-              dataIndex: "locale",
-              flex: 1,
-            }),
-            Config(StatusColumn),
-          ],
+          columns: config.columns || DEFAULT_COLUMNS,
           tbar: Config(Toolbar, {
             ui: ToolbarSkin.FIELD.getSkin(),
             items: [
