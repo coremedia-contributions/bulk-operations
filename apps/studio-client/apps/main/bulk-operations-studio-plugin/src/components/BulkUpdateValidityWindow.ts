@@ -10,9 +10,6 @@ import LinkListThumbnailColumn
 
 import Editor_properties from "@coremedia/studio-client.main.editor-components/Editor_properties";
 
-import FormSpacerElement
-  from "@coremedia/studio-client.main.editor-components/sdk/premular/fields/FormSpacerElement";
-import Label from "@jangaroo/ext-ts/form/Label";
 import DisplayField from "@jangaroo/ext-ts/form/field/Display";
 import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
@@ -48,7 +45,6 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           itemId: "infoBox",
           value: BulkOperations_properties.bulk_edit_dialog_updateValidity_info,
         }),
-        Config(Label, { text: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label }),
         Config(StatefulDateTimeField, {
           itemId: "validFrom",
           ariaLabel: Editor_properties.Date_property_field,
@@ -56,9 +52,9 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           propertyName: BulkUpdateValidityWindow.VALID_FROM,
           bindTo: ValueExpressionFactory.create("properties", this.getModel()),
           timeZoneHidden: true,
+          fieldLabel: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label,
         }),
-        Config(FormSpacerElement),
-        Config(Label, { text: BulkOperations_properties.bulk_edit_dialog_updateValidity_validTo_label }),
+
         Config(StatefulDateTimeField, {
           itemId: "validTo",
           ariaLabel: Editor_properties.Date_property_field,
@@ -66,6 +62,7 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           propertyName: BulkUpdateValidityWindow.VALID_TO,
           bindTo: ValueExpressionFactory.create("properties", this.getModel()),
           timeZoneHidden: true,
+          fieldLabel: BulkOperations_properties.bulk_edit_dialog_updateValidity_validTo_label,
         }),
         Config(ItemsList, {
           bindTo: ValueExpressionFactory.create(BulkUpdateValidityWindow.ITEMS, this.getModel()),
