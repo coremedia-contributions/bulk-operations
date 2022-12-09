@@ -1,3 +1,4 @@
+import Content from "@coremedia/studio-client.cap-rest-client/content/Content";
 import Bean from "@coremedia/studio-client.client-core/data/Bean";
 import ValueExpressionFactory from "@coremedia/studio-client.client-core/data/ValueExpressionFactory";
 import beanFactory from "@coremedia/studio-client.client-core/data/beanFactory";
@@ -10,7 +11,9 @@ import LinkListThumbnailColumn
 
 import Editor_properties from "@coremedia/studio-client.main.editor-components/Editor_properties";
 
+import DataField from "@jangaroo/ext-ts/data/field/Field";
 import DisplayField from "@jangaroo/ext-ts/form/field/Display";
+import Column from "@jangaroo/ext-ts/grid/column/Column";
 import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
@@ -54,7 +57,6 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           timeZoneHidden: true,
           fieldLabel: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label,
         }),
-
         Config(StatefulDateTimeField, {
           itemId: "validTo",
           ariaLabel: Editor_properties.Date_property_field,
@@ -67,10 +69,23 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
         Config(ItemsList, {
           bindTo: ValueExpressionFactory.create(BulkUpdateValidityWindow.ITEMS, this.getModel()),
           selectedVE: ValueExpressionFactory.create(BulkUpdateValidityWindow.SELECTION, this.getModel()),
+          additionalFields: [
+            Config(DataField, {
+              name: "validFromStr",
+              mapping: "",
+              convert: this.#formatValidity,
+            }),
+          ],
           columns: [
             Config(LinkListThumbnailColumn),
             Config(TypeIconColumn),
             Config(NameColumn, { flex: 2 }),
+            Config(Column, {
+              header: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label,
+              stateId: "validFromStr",
+              dataIndex: "validFromStr",
+              flex: 2,
+            }),
             Config(StatusColumn),
           ],
         }),
@@ -95,6 +110,18 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
       this.model.set("properties", beanFactory._.createLocalBean({}));
     }
     return this.model;
+  }
+
+  #formatValidity(content: Content): string {
+    /*    const contentLanguageTag = content.getProperties().get("locale");
+    if (!contentLanguageTag) {
+      return "";
+    }
+
+    const localesService = as(editorContext._, EditorContextImpl).getLocalesService();
+    const contentLocale: Locale = localesService.getLocale(contentLanguageTag);
+    return contentLocale.getDisplayName();*/
+    return "test";
   }
 
 }
