@@ -29,10 +29,13 @@ class BulkUpdateValidityAction extends BulkOperationAction {
   }
 
   static #makeRequestParameters(selection: Array<any>, validFrom: Calendar, validTo: Calendar): any {
+    function getDateRequestString(calender: Calendar): string {
+      return calender != null ? DateUtil.format(calender.getDate(), DATE_FORMAT) : "";
+    }
     return {
       selection: selection,
-      validFrom: validFrom != null ? DateUtil.format(validFrom.getDate(), DATE_FORMAT) : "",
-      validTo: validTo != null ? DateUtil.format(validTo.getDate(), DATE_FORMAT) : "",
+      validFrom: getDateRequestString(validFrom),
+      validTo: getDateRequestString(validTo),
     };
   }
 
