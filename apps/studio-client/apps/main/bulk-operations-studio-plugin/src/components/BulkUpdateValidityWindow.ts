@@ -11,6 +11,7 @@ import LinkListThumbnailColumn
 
 import Editor_properties from "@coremedia/studio-client.main.editor-components/Editor_properties";
 
+import DateUtil from "@jangaroo/ext-ts/Date";
 import DataField from "@jangaroo/ext-ts/data/field/Field";
 import DisplayField from "@jangaroo/ext-ts/form/field/Display";
 import Column from "@jangaroo/ext-ts/grid/column/Column";
@@ -32,6 +33,8 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
   static readonly VALID_FROM: string = "validFrom";
 
   static readonly VALID_TO: string = "validTo";
+
+  static readonly DATE_FORMAT: string = "d.m.Y-H:i";
 
   static readonly DEFAULT_TIME_ZONE_IDS: Array<any> = [
     "Europe/Berlin",
@@ -73,7 +76,12 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
             Config(DataField, {
               name: "validFromStr",
               mapping: "",
-              convert: this.#formatValidity,
+              convert: this.#formatValidFrom,
+            }),
+            Config(DataField, {
+              name: "validToStr",
+              mapping: "",
+              convert: this.#formatValidTo,
             }),
           ],
           columns: [
@@ -84,7 +92,13 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
               header: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label,
               stateId: "validFromStr",
               dataIndex: "validFromStr",
-              flex: 2,
+              flex: 1,
+            }),
+            Config(Column, {
+              header: BulkOperations_properties.bulk_edit_dialog_updateValidity_validTo_label,
+              stateId: "validToStr",
+              dataIndex: "validToStr",
+              flex: 1,
             }),
             Config(StatusColumn),
           ],
@@ -112,16 +126,20 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
     return this.model;
   }
 
-  #formatValidity(content: Content): string {
-    /*    const contentLanguageTag = content.getProperties().get("locale");
-    if (!contentLanguageTag) {
+  #formatValidFrom(content: Content): string {
+    return BulkUpdateValidityWindow.formatValidity(content, "validFrom");
+  }
+
+  #formatValidTo(content: Content): string {
+    return BulkUpdateValidityWindow.formatValidity(content, "validTo");
+  }
+
+  static formatValidity(content: Content, dateProperty: string): string {
+    const value = content.getProperties().get(dateProperty);
+    if (!value) {
       return "";
     }
-
-    const localesService = as(editorContext._, EditorContextImpl).getLocalesService();
-    const contentLocale: Locale = localesService.getLocale(contentLanguageTag);
-    return contentLocale.getDisplayName();*/
-    return "test";
+    return DateUtil.format(value.getDate(), BulkUpdateValidityWindow.DATE_FORMAT);
   }
 
 }
