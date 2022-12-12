@@ -42,7 +42,7 @@ class BulkOperationsMenuButton extends IconButton {
       menu: Config(Menu, {
         items: [
           Config(Item, {
-            iconCls: CoreIcons_properties.locale,
+            iconCls: CoreIcons_properties.time,
             text: BulkOperations_properties.bulk_edit_dialog_updateValidity_title,
             baseAction: new OpenBulkActionWindowAction({
               contentValueExpression: config.contentValueExpression,

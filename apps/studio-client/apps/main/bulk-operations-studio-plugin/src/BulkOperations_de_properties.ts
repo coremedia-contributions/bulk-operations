@@ -23,4 +23,8 @@ ResourceBundleUtil.override(BulkOperations_properties, {
   bulk_tag_dialog_searchAndReplace_replaceWithEmptyText: "Und mit diesem Wert ersetzen.",
   bulk_tag_dialog_searchAndReplace_property_text: "In den folgenden Properties",
   bulk_tag_dialog_searchAndReplace_grid_title: "Inhalte",
+  bulk_edit_dialog_updateValidity_title: "Gültigkeit aktualisieren",
+  bulk_edit_dialog_updateValidity_info: "Eine neue Gültigkeit für alle selektierten Inhalte setzen",
+  bulk_edit_dialog_updateValidity_validFrom_label: "Gültig von",
+  bulk_edit_dialog_updateValidity_validTo_label: "Gültig bis",
 });
