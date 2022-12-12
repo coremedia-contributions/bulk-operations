@@ -57,7 +57,7 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           timeZoneIds: BulkUpdateValidityWindow.DEFAULT_TIME_ZONE_IDS,
           propertyName: BulkUpdateValidityWindow.VALID_FROM,
           bindTo: ValueExpressionFactory.create("properties", this.getModel()),
-          timeZoneHidden: true,
+          timeZoneHidden: false,
           fieldLabel: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label,
         }),
         Config(StatefulDateTimeField, {
@@ -66,7 +66,7 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
           timeZoneIds: BulkUpdateValidityWindow.DEFAULT_TIME_ZONE_IDS,
           propertyName: BulkUpdateValidityWindow.VALID_TO,
           bindTo: ValueExpressionFactory.create("properties", this.getModel()),
-          timeZoneHidden: true,
+          timeZoneHidden: false,
           fieldLabel: BulkOperations_properties.bulk_edit_dialog_updateValidity_validTo_label,
         }),
         Config(ItemsList, {

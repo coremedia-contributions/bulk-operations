@@ -4,20 +4,23 @@ import com.coremedia.cap.content.Content;
 import com.coremedia.cap.struct.Struct;
 import com.coremedia.cap.struct.StructBuilder;
 import com.coremedia.cap.util.CapStructUtil;
+import com.coremedia.rest.cap.config.StudioConfigurationProperties;
+import com.coremedia.rest.cap.content.convert.DatePropertyConverter;
 import com.coremedia.xml.Markup;
 import com.coremedia.xml.MarkupFactory;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
 @RestController
+@Configuration
 @RequestMapping(value = "bulkoperations", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BulkOperationsResource {
 
@@ -173,17 +176,20 @@ public class BulkOperationsResource {
    */
   @PostMapping(value = "updateValidity", consumes = MediaType.APPLICATION_JSON_VALUE)
   @SuppressWarnings("unchecked")
-  public BulkOperationsResponse bulkUpdateValidity(@RequestBody @NonNull Map<String, Object> json) throws Exception {
+  public BulkOperationsResponse bulkUpdateValidity(@RequestBody @NonNull Map<String, Object> json, StudioConfigurationProperties studioConfigurationProperties) throws Exception {
+    DatePropertyConverter datePropertyConverter = new DatePropertyConverter();
+    datePropertyConverter.setTimeZones(studioConfigurationProperties.getTimeZones());
+    datePropertyConverter.setDefaultTimeZone(studioConfigurationProperties.getDefaultTimeZone());
+
     List<Content> selection = (List<Content>) json.get("selection");
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy-HH:mm");
 
     String validFromStr = (String) json.get("validFrom");
     String validToStr = (String) json.get("validTo");
 
     BulkOperationsResponse result = new BulkOperationsResponse();
     try {
-      Date validFrom = (!validFromStr.isEmpty()) ? dateFormat.parse(validFromStr) : null;
-      Date validTo = (!validToStr.isEmpty()) ? dateFormat.parse(validToStr) : null;
+      Calendar validFrom = (validFromStr != null) ? datePropertyConverter.convertTimeString(validFromStr) : null;
+      Calendar validTo = (validToStr != null) ? datePropertyConverter.convertTimeString(validToStr) : null;
       for (Content item : selection) {
         boolean wasCheckedOut = item.isCheckedOut();
 
@@ -295,16 +301,14 @@ public class BulkOperationsResource {
    *
    * @return <code>true</code> if the validty has been updated, <code>false</code> otherwise.
    */
-  private boolean updateValidity(@NonNull Content item, String property, Date validToFrom) {
-    Calendar cal = Calendar.getInstance();
+  private boolean updateValidity(@NonNull Content item, String property, Calendar cal) {
     boolean updated = false;
-    if (validToFrom == null) {
+    if (cal == null) {
       if (item.get(property) != null) {
         item.set(property, null);
         updated = true;
       }
     } else {
-      cal.setTime(validToFrom);
       if (!cal.equals(item.getDate(property))) {
         item.set(property, cal);
         updated = true;

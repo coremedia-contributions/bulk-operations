@@ -1,5 +1,4 @@
 import Calendar from "@coremedia/studio-client.client-core/data/Calendar";
-import DateUtil from "@jangaroo/ext-ts/Date";
 import Config from "@jangaroo/runtime/Config";
 import BulkOperationAction from "./BulkOperationAction";
 
@@ -29,13 +28,10 @@ class BulkUpdateValidityAction extends BulkOperationAction {
   }
 
   static #makeRequestParameters(selection: Array<any>, validFrom: Calendar, validTo: Calendar): any {
-    function getDateRequestString(calender: Calendar): string {
-      return calender != null ? DateUtil.format(calender.getDate(), DATE_FORMAT) : "";
-    }
     return {
       selection: selection,
-      validFrom: getDateRequestString(validFrom),
-      validTo: getDateRequestString(validTo),
+      validFrom: validFrom,
+      validTo: validTo,
     };
   }
 

@@ -47,6 +47,10 @@
       <artifactId>spotbugs-annotations</artifactId>
       <scope>provided</scope>
     </dependency>
+      <dependency>
+          <groupId>com.coremedia.ui</groupId>
+          <artifactId>cap-rest-service</artifactId>
+      </dependency>
 
   </dependencies>
 
