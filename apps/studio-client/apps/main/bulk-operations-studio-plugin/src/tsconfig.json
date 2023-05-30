@@ -27,9 +27,6 @@
     },
     {
       "path": "../../../../../../../../../apps/studio-client/apps/main/extensions/taxonomy/src"
-    },
-    {
-      "path": "../../../../../../../color-picker/apps/studio-client/apps/main/color-picker-studio-base/src"
     }
   ]
 }
