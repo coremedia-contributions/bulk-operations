@@ -16,7 +16,9 @@ import OpenBulkActionWindowAction from "../actions/OpenBulkActionWindowAction";
 import icon from "../icons/bulktag.svg";
 import AddProductOrCategoryReferenceWindow from "./AddProductOrCategoryReferenceWindow";
 import BulkTagAssetsWindow from "./BulkTagAssetsWindow";
+import BulkTagChannelWindow from "./BulkTagChannelWindow";
 import BulkTagLocationWindow from "./BulkTagLocationWindow";
+import BulkTagSegmentWindow from "./BulkTagSegmentWindow";
 import BulkTagSubjectWindow from "./BulkTagSubjectWindow";
 import BulkUpdateLocaleWindow from "./BulkUpdateLocaleWindow";
 import BulkUpdateValidityWindow from "./BulkUpdateValidityWindow";
@@ -79,6 +81,26 @@ class BulkOperationsMenuButton extends IconButton {
               multiSelect: true,
               contentType: "CMTeasable",
               windowConfig: Config(BulkTagLocationWindow),
+            }),
+          }),
+          Config(Item, {
+            iconCls: CoreIcons_properties.add_tag,
+            text: BulkOperations_properties.bulk_tag_dialog_segmentTaxonomy_title,
+            baseAction: new OpenBulkActionWindowAction({
+              contentValueExpression: config.contentValueExpression,
+              multiSelect: true,
+              contentType: "CMTeasable",
+              windowConfig: Config(BulkTagSegmentWindow),
+            }),
+          }),
+          Config(Item, {
+            iconCls: CoreIcons_properties.add_tag,
+            text: BulkOperations_properties.bulk_tag_dialog_channelTaxonomy_title,
+            baseAction: new OpenBulkActionWindowAction({
+              contentValueExpression: config.contentValueExpression,
+              multiSelect: true,
+              contentType: "CMTeasable",
+              windowConfig: Config(BulkTagChannelWindow),
             }),
           }),
           Config(Item, {

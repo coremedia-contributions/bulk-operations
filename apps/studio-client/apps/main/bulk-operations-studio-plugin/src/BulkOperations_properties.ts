@@ -18,6 +18,8 @@ interface BulkOperations_properties {
   bulk_tag_dialog_subjectTaxonomy_title: string;
   bulk_tag_dialog_searchAndReplace_title: string;
   bulk_tag_dialog_locationTaxonomy_title: string;
+  bulk_tag_dialog_segmentTaxonomy_title: string;
+  bulk_tag_dialog_channelTaxonomy_title: string;
   bulk_tag_dialog_assetTaxonomy_title: string;
   bulk_tag_dialog_ecommerceReference_title: string;
   bulk_tag_dialog_failure_title: string;
@@ -46,6 +48,8 @@ const BulkOperations_properties: BulkOperations_properties = {
   bulk_tag_dialog_subjectTaxonomy_title: "Bulk Tag Subjects",
   bulk_tag_dialog_searchAndReplace_title: "Search & Replace",
   bulk_tag_dialog_locationTaxonomy_title: "Bulk Tag Locations",
+  bulk_tag_dialog_segmentTaxonomy_title: "Bulk Tag Segments",
+  bulk_tag_dialog_channelTaxonomy_title: "Bulk Tag Channels",
   bulk_tag_dialog_assetTaxonomy_title: "Bulk Tag Asset Categories",
   bulk_tag_dialog_ecommerceReference_title: "Add Products or Categories",
   bulk_tag_dialog_failure_title: "Bulk Tag Error",
