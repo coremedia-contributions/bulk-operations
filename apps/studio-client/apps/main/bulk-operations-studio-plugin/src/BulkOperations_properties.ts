@@ -4,6 +4,7 @@
  * @see BulkOperations_properties#INSTANCE
  */
 interface BulkOperations_properties {
+  bulk_edit_menu_tooltip: string;
   bulk_edit_menu_updateLocale_text: string;
   bulk_edit_dialog_okButton_title: string;
   bulk_edit_dialog_cancelButton_title: string;
@@ -42,6 +43,7 @@ interface BulkOperations_properties {
  * @see BulkOperations_properties
  */
 const BulkOperations_properties: BulkOperations_properties = {
+  bulk_edit_menu_tooltip: "Bulk edit",
   bulk_tag_dialog_applyButton_text: "Apply",
   bulk_tag_dialog_subjectTaxonomy_title: "Bulk Tag Subjects",
   bulk_tag_dialog_searchAndReplace_title: "Search & Replace",

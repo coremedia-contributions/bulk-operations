@@ -9,7 +9,8 @@ import Item from "@jangaroo/ext-ts/menu/Item";
 import { cast } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
-import BulkOperationsMenuButton from "./components/BulkOperationsMenuButton";
+import BulkOperationsMenuButton from "../components/BulkOperationsMenuButton";
+
 
 interface BulkActionViewPluginConfig extends Config<NestedRulesPlugin> {
 }
