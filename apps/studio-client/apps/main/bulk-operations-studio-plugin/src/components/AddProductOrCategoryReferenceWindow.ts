@@ -91,7 +91,7 @@ class AddProductOrCategoryReferenceWindow extends BulkOperationsWindow {
 
   override handleOk(): void {
     const action = new AddProductOrCategoryReferenceAction(Config(AddProductOrCategoryReferenceAction, {
-      selection: this.selectedItems,
+      selection: this.getModel().get(BulkOperationsWindow.ITEMS),
       callback: bind(this, this.updateCallback),
       references: this.getModel().get(CatalogHelper.REFERENCES_LIST_NAME),
       overrideValue: this.getModel().get(AddProductOrCategoryReferenceWindow.OVERRIDE_CHECKER),
