@@ -1,4 +1,3 @@
-
 /**
  * Interface values for ResourceBundle "ViewTypeConfiguration".
  * @see BulkOperations_properties#INSTANCE

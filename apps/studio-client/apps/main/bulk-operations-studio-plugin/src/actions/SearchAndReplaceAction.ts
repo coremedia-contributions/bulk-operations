@@ -1,21 +1,19 @@
 import Config from "@jangaroo/runtime/Config";
 import BulkOperationAction from "./BulkOperationAction";
 
-interface SearchAndReplaceActionConfig extends Config<BulkOperationAction>, Partial<Pick<SearchAndReplaceAction,
-        "properties" |
-        "teaserTitle" |
-        "teaserText" |
-        "title" |
-        "detailText" |
-        "searchFor" |
-        "replaceWith">> {
-}
+interface SearchAndReplaceActionConfig
+  extends Config<BulkOperationAction>,
+    Partial<
+      Pick<
+        SearchAndReplaceAction,
+        "properties" | "teaserTitle" | "teaserText" | "title" | "detailText" | "searchFor" | "replaceWith"
+      >
+    > {}
 
 /**
  * Bulk operation to search and replace text on the selected items.
  */
 class SearchAndReplaceAction extends BulkOperationAction {
-
   declare Config: SearchAndReplaceActionConfig;
 
   properties: any = null;
@@ -35,7 +33,12 @@ class SearchAndReplaceAction extends BulkOperationAction {
   }
 
   protected override execBulkOperation(): void {
-    const params: any = SearchAndReplaceAction.#makeRequestParameters(this.selection, this.searchFor, this.replaceWith, this.properties);
+    const params: any = SearchAndReplaceAction.#makeRequestParameters(
+      this.selection,
+      this.searchFor,
+      this.replaceWith,
+      this.properties,
+    );
     this.execRemoteAction("searchandreplace", params);
   }
 
@@ -47,7 +50,6 @@ class SearchAndReplaceAction extends BulkOperationAction {
       properties: properties,
     };
   }
-
 }
 
 export default SearchAndReplaceAction;

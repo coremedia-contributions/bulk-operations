@@ -4,8 +4,7 @@ import MemoryLinkListWrapper from "@coremedia/studio-client.content-link-list-mo
 import NameColumn from "@coremedia/studio-client.ext.cap-base-components/columns/NameColumn";
 import StatusColumn from "@coremedia/studio-client.ext.cap-base-components/columns/StatusColumn";
 import TypeIconColumn from "@coremedia/studio-client.ext.cap-base-components/columns/TypeIconColumn";
-import LinkListThumbnailColumn
-  from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailColumn";
+import LinkListThumbnailColumn from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailColumn";
 import IconButton from "@coremedia/studio-client.ext.ui-components/components/IconButton";
 import CollapsiblePanel from "@coremedia/studio-client.ext.ui-components/components/panel/CollapsiblePanel";
 import BindPropertyPlugin from "@coremedia/studio-client.ext.ui-components/plugins/BindPropertyPlugin";
@@ -22,8 +21,7 @@ import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
 import BulkOperations_properties from "../BulkOperations_properties";
 
-interface ItemsListConfig extends Config<ContentGridPanel>, Partial<Pick<ItemsList, "bindTo" | "selectedVE">> {
-}
+interface ItemsListConfig extends Config<ContentGridPanel>, Partial<Pick<ItemsList, "bindTo" | "selectedVE">> {}
 
 const DEFAULT_COLUMNS = [
   Config(LinkListThumbnailColumn),
@@ -42,56 +40,61 @@ class ItemsList extends CollapsiblePanel {
   columns?: GridColumn[] | any;
 
   constructor(config: Config<ItemsList> = null) {
-    super((() => ConfigUtils.apply(Config(ItemsList,
-      {
-        minHeight: 300,
-        title: BulkOperations_properties.bulk_edit_dialog_items_title,
-        stateEvents: ["collapse", "expand"],
-        ui: PanelSkin.CARD_100.getSkin(),
-        plugins: [
-          Config(BindPropertyPlugin, {
-            bindTo: config.bindTo,
-            transformer: this.#formatTitle,
-            componentProperty: "title",
-          }),
-        ],
-        items: [Config(ContentGridPanel, {
-          itemId: "contentList",
-          scrollable: true,
-          height: 300,
-          width: "100%",
-          lazy: true,
-          initialViewLimit: 30,
-          viewLimitIncrement: 30,
-          linkListWrapper: new MemoryLinkListWrapper({ linksVE: config.bindTo }),
-          selectedValuesExpression: config.selectedVE,
-          hideDropArea: true,
-          viewEnableDrop: true,
-          hideValidation: true,
-          additionalFields: config.additionalFields,
-          columns: config.columns || DEFAULT_COLUMNS,
-          tbar: Config(Toolbar, {
-            ui: ToolbarSkin.FIELD.getSkin(),
+    super(
+      (() =>
+        ConfigUtils.apply(
+          Config(ItemsList, {
+            minHeight: 300,
+            title: BulkOperations_properties.bulk_edit_dialog_items_title,
+            stateEvents: ["collapse", "expand"],
+            ui: PanelSkin.CARD_100.getSkin(),
+            plugins: [
+              Config(BindPropertyPlugin, {
+                bindTo: config.bindTo,
+                transformer: this.#formatTitle,
+                componentProperty: "title",
+              }),
+            ],
             items: [
-              Config(IconButton, {
-                handler: bind(this, this.#deleteItems),
-                text: Actions_properties.Action_deleteSelectedLinks_text,
-                iconCls: Actions_properties.Action_deleteSelectedLinks_icon,
-                tooltip: Actions_properties.Action_deleteSelectedLinks_tooltip,
+              Config(ContentGridPanel, {
+                itemId: "contentList",
+                scrollable: true,
+                height: 300,
+                width: "100%",
+                lazy: true,
+                initialViewLimit: 30,
+                viewLimitIncrement: 30,
+                linkListWrapper: new MemoryLinkListWrapper({ linksVE: config.bindTo }),
+                selectedValuesExpression: config.selectedVE,
+                hideDropArea: true,
+                viewEnableDrop: true,
+                hideValidation: true,
+                additionalFields: config.additionalFields,
+                columns: config.columns || DEFAULT_COLUMNS,
+                tbar: Config(Toolbar, {
+                  ui: ToolbarSkin.FIELD.getSkin(),
+                  items: [
+                    Config(IconButton, {
+                      handler: bind(this, this.#deleteItems),
+                      text: Actions_properties.Action_deleteSelectedLinks_text,
+                      iconCls: Actions_properties.Action_deleteSelectedLinks_icon,
+                      tooltip: Actions_properties.Action_deleteSelectedLinks_tooltip,
+                    }),
+                    Config(IconButton, {
+                      handler: bind(this, this.#openItemsInTab),
+                      text: Actions_properties.Action_openInTab_text,
+                      iconCls: Actions_properties.Action_openInTab_icon,
+                      tooltip: Actions_properties.Action_openInTab_tooltip,
+                    }),
+                    Config(Separator),
+                  ],
+                }),
               }),
-              Config(IconButton, {
-                handler: bind(this, this.#openItemsInTab),
-                text: Actions_properties.Action_openInTab_text,
-                iconCls: Actions_properties.Action_openInTab_icon,
-                tooltip: Actions_properties.Action_openInTab_tooltip,
-              }),
-              Config(Separator),
             ],
           }),
-        })],
-      },
-
-    ), config))());
+          config,
+        ))(),
+    );
   }
 
   #deleteItems(): void {

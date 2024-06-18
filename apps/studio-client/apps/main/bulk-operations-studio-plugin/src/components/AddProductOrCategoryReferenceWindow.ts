@@ -19,64 +19,70 @@ import AddProductOrCategoryReferenceAction from "../actions/AddProductOrCategory
 import BulkOperationsWindow from "./BulkOperationsWindow";
 import ItemsList from "./ItemsList";
 
-interface AddProductOrCategoryReferenceWindowConfig extends Config<BulkOperationsWindow>{
-}
+interface AddProductOrCategoryReferenceWindowConfig extends Config<BulkOperationsWindow> {}
 
 class AddProductOrCategoryReferenceWindow extends BulkOperationsWindow {
   declare Config: AddProductOrCategoryReferenceWindowConfig;
 
-  static override readonly xtype: string = "com.coremedia.blueprint.studio.bulktag.config.AddProductOrCategoryReferenceWindow";
+  static override readonly xtype: string =
+    "com.coremedia.blueprint.studio.bulktag.config.AddProductOrCategoryReferenceWindow";
 
   static readonly OVERRIDE_CHECKER: string = "overrideChecker";
 
   constructor(config: Config<AddProductOrCategoryReferenceWindow> = null) {
-    super((()=> ConfigUtils.apply(Config(AddProductOrCategoryReferenceWindow, {
-      title: BulkOperations_properties.bulk_tag_dialog_ecommerceReference_title,
-      iconCls: CoreIcons_properties.research,
-      modal: false,
-      width: 650,
-      resizable: true,
-      resizeHandles: "s",
-      scrollable: true,
-      constrainHeader: true,
-      ui: WindowSkin.GRID_200.getSkin(),
-      cls: "AddProductOrCategoryReferenceWindow",
+    super(
+      (() =>
+        ConfigUtils.apply(
+          Config(AddProductOrCategoryReferenceWindow, {
+            title: BulkOperations_properties.bulk_tag_dialog_ecommerceReference_title,
+            iconCls: CoreIcons_properties.research,
+            modal: false,
+            width: 650,
+            resizable: true,
+            resizeHandles: "s",
+            scrollable: true,
+            constrainHeader: true,
+            ui: WindowSkin.GRID_200.getSkin(),
+            cls: "AddProductOrCategoryReferenceWindow",
 
-      items: [
-        Config(Panel, {
-          title: LivecontextStudioPlugin_properties.CMPicture_propertyGroup_commerce,
-          items: [
-            Config(CatalogLinkPropertyField, {
-              propertyName: CatalogHelper.REFERENCES_LIST_NAME,
-              hideCatalog: true,
-              linkTypeNames: [CatalogModel.TYPE_CATEGORY, CatalogModel.TYPE_PRODUCT],
-              createStructFunction: bind(this, this.createStructs),
-              dropAreaText: ECommerceStudioPlugin_properties.Categories_Products_Link_empty_text,
-              model: this.getModel(),
-            }),
-          ],
-        }),
-        Config(Checkbox, {
-          hideLabel: true,
-          boxLabel: BulkOperations_properties.bulk_tag_dialog_ecommerceReference_override,
-          anchor: "100%",
-          plugins: [
-            Config(BindPropertyPlugin, {
-              bidirectional: true,
-              bindTo: new ConfigBasedValueExpression({
-                context: this.getModel(),
-                expression: AddProductOrCategoryReferenceWindow.OVERRIDE_CHECKER,
+            items: [
+              Config(Panel, {
+                title: LivecontextStudioPlugin_properties.CMPicture_propertyGroup_commerce,
+                items: [
+                  Config(CatalogLinkPropertyField, {
+                    propertyName: CatalogHelper.REFERENCES_LIST_NAME,
+                    hideCatalog: true,
+                    linkTypeNames: [CatalogModel.TYPE_CATEGORY, CatalogModel.TYPE_PRODUCT],
+                    createStructFunction: bind(this, this.createStructs),
+                    dropAreaText: ECommerceStudioPlugin_properties.Categories_Products_Link_empty_text,
+                    model: this.getModel(),
+                  }),
+                ],
               }),
-            }),
-          ],
-        }),
+              Config(Checkbox, {
+                hideLabel: true,
+                boxLabel: BulkOperations_properties.bulk_tag_dialog_ecommerceReference_override,
+                anchor: "100%",
+                plugins: [
+                  Config(BindPropertyPlugin, {
+                    bidirectional: true,
+                    bindTo: new ConfigBasedValueExpression({
+                      context: this.getModel(),
+                      expression: AddProductOrCategoryReferenceWindow.OVERRIDE_CHECKER,
+                    }),
+                  }),
+                ],
+              }),
 
-        Config(ItemsList, {
-          bindTo: ValueExpressionFactory.create(BulkOperationsWindow.ITEMS, this.getModel()),
-          selectedVE: ValueExpressionFactory.create(BulkOperationsWindow.SELECTION, this.getModel()),
-        }),
-      ],
-    }), config))());
+              Config(ItemsList, {
+                bindTo: ValueExpressionFactory.create(BulkOperationsWindow.ITEMS, this.getModel()),
+                selectedVE: ValueExpressionFactory.create(BulkOperationsWindow.SELECTION, this.getModel()),
+              }),
+            ],
+          }),
+          config,
+        ))(),
+    );
   }
 
   override getModel(): Bean {
@@ -90,18 +96,18 @@ class AddProductOrCategoryReferenceWindow extends BulkOperationsWindow {
   }
 
   override handleOk(): void {
-    const action = new AddProductOrCategoryReferenceAction(Config(AddProductOrCategoryReferenceAction, {
-      selection: this.getModel().get(BulkOperationsWindow.ITEMS),
-      callback: bind(this, this.updateCallback),
-      references: this.getModel().get(CatalogHelper.REFERENCES_LIST_NAME),
-      overrideValue: this.getModel().get(AddProductOrCategoryReferenceWindow.OVERRIDE_CHECKER),
-    }));
+    const action = new AddProductOrCategoryReferenceAction(
+      Config(AddProductOrCategoryReferenceAction, {
+        selection: this.getModel().get(BulkOperationsWindow.ITEMS),
+        callback: bind(this, this.updateCallback),
+        references: this.getModel().get(CatalogHelper.REFERENCES_LIST_NAME),
+        overrideValue: this.getModel().get(AddProductOrCategoryReferenceWindow.OVERRIDE_CHECKER),
+      }),
+    );
     action.execute();
   }
 
-  protected createStructs(): void {
-  }
-
+  protected createStructs(): void {}
 }
 
 export default AddProductOrCategoryReferenceWindow;

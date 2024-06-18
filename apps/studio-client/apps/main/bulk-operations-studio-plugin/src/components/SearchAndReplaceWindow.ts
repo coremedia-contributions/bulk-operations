@@ -8,8 +8,7 @@ import SpacingBEMEntities from "@coremedia/studio-client.ext.ui-components/bem/S
 import ConfigBasedValueExpression from "@coremedia/studio-client.ext.ui-components/data/ConfigBasedValueExpression";
 import BindPropertyPlugin from "@coremedia/studio-client.ext.ui-components/plugins/BindPropertyPlugin";
 import HorizontalSpacingPlugin from "@coremedia/studio-client.ext.ui-components/plugins/HorizontalSpacingPlugin";
-import CollectionViewModel
-  from "@coremedia/studio-client.main.editor-components/sdk/collectionview/CollectionViewModel";
+import CollectionViewModel from "@coremedia/studio-client.main.editor-components/sdk/collectionview/CollectionViewModel";
 import editorContext from "@coremedia/studio-client.main.editor-components/sdk/editorContext";
 import Container from "@jangaroo/ext-ts/container/Container";
 import CheckboxGroup from "@jangaroo/ext-ts/form/CheckboxGroup";
@@ -26,8 +25,7 @@ import SearchAndReplaceAction from "../actions/SearchAndReplaceAction";
 import BulkOperationsWindow from "./BulkOperationsWindow";
 import ItemsList from "./ItemsList";
 
-interface SearchAndReplaceWindowConfig extends Config<BulkOperationsWindow> {
-}
+interface SearchAndReplaceWindowConfig extends Config<BulkOperationsWindow> {}
 
 class SearchAndReplaceWindow extends BulkOperationsWindow {
   declare Config: SearchAndReplaceWindowConfig;
@@ -49,144 +47,154 @@ class SearchAndReplaceWindow extends BulkOperationsWindow {
   protected static readonly REPLACE_WITH: string = "replaceWith";
 
   constructor(config: Config<SearchAndReplaceWindow> = null) {
-    super((()=> ConfigUtils.apply(Config(SearchAndReplaceWindow, {
-      title: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_title,
-      iconCls: CoreIcons_properties.research,
-      cls: "searchAndReplaceWindow",
+    super(
+      (() =>
+        ConfigUtils.apply(
+          Config(SearchAndReplaceWindow, {
+            title: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_title,
+            iconCls: CoreIcons_properties.research,
+            cls: "searchAndReplaceWindow",
 
-      items: [
-        Config(Container, {
-          layout: Config(HBoxLayout),
-          items: [
-            Config(DisplayField, { value: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_searchFor }),
-            Config(TextField, {
-              hideLabel: true,
-              itemId: "searchFor",
-              emptyText: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_searchForEmptyText,
-              flex: 1,
-              plugins: [
-                Config(BindPropertyPlugin, {
-                  bidirectional: true,
-                  bindTo: new ConfigBasedValueExpression({
-                    context: this.getModel(),
-                    expression: SearchAndReplaceWindow.SEARCH_FOR,
+            items: [
+              Config(Container, {
+                layout: Config(HBoxLayout),
+                items: [
+                  Config(DisplayField, { value: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_searchFor }),
+                  Config(TextField, {
+                    hideLabel: true,
+                    itemId: "searchFor",
+                    emptyText: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_searchForEmptyText,
+                    flex: 1,
+                    plugins: [
+                      Config(BindPropertyPlugin, {
+                        bidirectional: true,
+                        bindTo: new ConfigBasedValueExpression({
+                          context: this.getModel(),
+                          expression: SearchAndReplaceWindow.SEARCH_FOR,
+                        }),
+                      }),
+                    ],
                   }),
-                }),
-              ],
-            }),
-            Config(DisplayField, { value: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_replaceWith }),
-            Config(TextField, {
-              hideLabel: true,
-              itemId: "replaceWith",
-              emptyText: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_replaceWithEmptyText,
-              flex: 1,
-              plugins: [
-                Config(BindPropertyPlugin, {
-                  bidirectional: true,
-                  bindTo: new ConfigBasedValueExpression({
-                    context: this.getModel(),
-                    expression: SearchAndReplaceWindow.REPLACE_WITH,
+                  Config(DisplayField, {
+                    value: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_replaceWith,
                   }),
-                }),
-              ],
-            }),
-          ],
-          plugins: [
-            Config(HorizontalSpacingPlugin, { modifier: SpacingBEMEntities.HORIZONTAL_SPACING_MODIFIER_200 }),
-          ],
-        }),
-        Config(FieldSet, {
-          title: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_property_text,
-          collapsible: true,
-          collapsed: true,
-          items: [
-            Config(CheckboxGroup, {
-              columns: 3,
-              vertical: true,
-              items: [
-                Config(Checkbox, {
-                  hideLabel: true,
-                  boxLabel: BlueprintDocumentTypes_properties.CMTeasable_teaserTitle_text,
-                  plugins: [
-                    Config(BindPropertyPlugin, {
-                      bidirectional: true,
-                      bindTo: new ConfigBasedValueExpression({
-                        context: this.getModel(),
-                        expression: SearchAndReplaceWindow.TEASER_TITLE,
+                  Config(TextField, {
+                    hideLabel: true,
+                    itemId: "replaceWith",
+                    emptyText: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_replaceWithEmptyText,
+                    flex: 1,
+                    plugins: [
+                      Config(BindPropertyPlugin, {
+                        bidirectional: true,
+                        bindTo: new ConfigBasedValueExpression({
+                          context: this.getModel(),
+                          expression: SearchAndReplaceWindow.REPLACE_WITH,
+                        }),
                       }),
-                    }),
-                  ],
-                }),
-                Config(Checkbox, {
-                  hideLabel: true,
-                  boxLabel: BlueprintDocumentTypes_properties.CMTeasable_teaserText_text,
-                  plugins: [
-                    Config(BindPropertyPlugin, {
-                      bidirectional: true,
-                      bindTo: new ConfigBasedValueExpression({
-                        context: this.getModel(),
-                        expression: SearchAndReplaceWindow.TEASER_TEXT,
+                    ],
+                  }),
+                ],
+                plugins: [
+                  Config(HorizontalSpacingPlugin, { modifier: SpacingBEMEntities.HORIZONTAL_SPACING_MODIFIER_200 }),
+                ],
+              }),
+              Config(FieldSet, {
+                title: BulkOperations_properties.bulk_tag_dialog_searchAndReplace_property_text,
+                collapsible: true,
+                collapsed: true,
+                items: [
+                  Config(CheckboxGroup, {
+                    columns: 3,
+                    vertical: true,
+                    items: [
+                      Config(Checkbox, {
+                        hideLabel: true,
+                        boxLabel: BlueprintDocumentTypes_properties.CMTeasable_teaserTitle_text,
+                        plugins: [
+                          Config(BindPropertyPlugin, {
+                            bidirectional: true,
+                            bindTo: new ConfigBasedValueExpression({
+                              context: this.getModel(),
+                              expression: SearchAndReplaceWindow.TEASER_TITLE,
+                            }),
+                          }),
+                        ],
                       }),
-                    }),
-                  ],
-                }),
-                Config(Checkbox, {
-                  hideLabel: true,
-                  boxLabel: BlueprintDocumentTypes_properties.CMLinkable_title_text,
-                  plugins: [
-                    Config(BindPropertyPlugin, {
-                      bidirectional: true,
-                      bindTo: new ConfigBasedValueExpression({
-                        context: this.getModel(),
-                        expression: SearchAndReplaceWindow.TITLE,
+                      Config(Checkbox, {
+                        hideLabel: true,
+                        boxLabel: BlueprintDocumentTypes_properties.CMTeasable_teaserText_text,
+                        plugins: [
+                          Config(BindPropertyPlugin, {
+                            bidirectional: true,
+                            bindTo: new ConfigBasedValueExpression({
+                              context: this.getModel(),
+                              expression: SearchAndReplaceWindow.TEASER_TEXT,
+                            }),
+                          }),
+                        ],
                       }),
-                    }),
-                  ],
-                }),
-                Config(Checkbox, {
-                  hideLabel: true,
-                  boxLabel: BlueprintDocumentTypes_properties.CMTeasable_detailText_text,
-                  plugins: [
-                    Config(BindPropertyPlugin, {
-                      bidirectional: true,
-                      bindTo: new ConfigBasedValueExpression({
-                        context: this.getModel(),
-                        expression: SearchAndReplaceWindow.DETAIL_TEXT,
+                      Config(Checkbox, {
+                        hideLabel: true,
+                        boxLabel: BlueprintDocumentTypes_properties.CMLinkable_title_text,
+                        plugins: [
+                          Config(BindPropertyPlugin, {
+                            bidirectional: true,
+                            bindTo: new ConfigBasedValueExpression({
+                              context: this.getModel(),
+                              expression: SearchAndReplaceWindow.TITLE,
+                            }),
+                          }),
+                        ],
                       }),
-                    }),
-                  ],
-                }),
-                Config(Checkbox, {
-                  hideLabel: true,
-                  boxLabel: BlueprintDocumentTypes_properties.CMHTML_data_text,
-                  plugins: [
-                    Config(BindPropertyPlugin, {
-                      bidirectional: true,
-                      bindTo: new ConfigBasedValueExpression({
-                        context: this.getModel(),
-                        expression: SearchAndReplaceWindow.DATA,
+                      Config(Checkbox, {
+                        hideLabel: true,
+                        boxLabel: BlueprintDocumentTypes_properties.CMTeasable_detailText_text,
+                        plugins: [
+                          Config(BindPropertyPlugin, {
+                            bidirectional: true,
+                            bindTo: new ConfigBasedValueExpression({
+                              context: this.getModel(),
+                              expression: SearchAndReplaceWindow.DETAIL_TEXT,
+                            }),
+                          }),
+                        ],
                       }),
-                    }),
-                  ],
-                }),
-              ],
-            }),
-          ],
-        }),
-        Config(ItemsList, {
-          bindTo: ValueExpressionFactory.create(BulkOperationsWindow.ITEMS, this.getModel()),
-          selectedVE: ValueExpressionFactory.create(BulkOperationsWindow.SELECTION, this.getModel()),
-        }),
-      ],
-
-    }), config))());
+                      Config(Checkbox, {
+                        hideLabel: true,
+                        boxLabel: BlueprintDocumentTypes_properties.CMHTML_data_text,
+                        plugins: [
+                          Config(BindPropertyPlugin, {
+                            bidirectional: true,
+                            bindTo: new ConfigBasedValueExpression({
+                              context: this.getModel(),
+                              expression: SearchAndReplaceWindow.DATA,
+                            }),
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              Config(ItemsList, {
+                bindTo: ValueExpressionFactory.create(BulkOperationsWindow.ITEMS, this.getModel()),
+                selectedVE: ValueExpressionFactory.create(BulkOperationsWindow.SELECTION, this.getModel()),
+              }),
+            ],
+          }),
+          config,
+        ))(),
+    );
   }
 
   protected override afterRender(): void {
     super.afterRender();
 
     // Fill model with current search term from library
-    const searchTextVE = ValueExpressionFactory.create(CollectionViewModel.SEARCH_TEXT_PROPERTY, editorContext._.getCollectionViewModel().getMainStateBean());
+    const searchTextVE = ValueExpressionFactory.create(
+      CollectionViewModel.SEARCH_TEXT_PROPERTY,
+      editorContext._.getCollectionViewModel().getMainStateBean(),
+    );
     searchTextVE.loadValue((searchTerm: any): void => {
       if (searchTerm && searchTerm !== "") {
         this.getModel().set(SearchAndReplaceWindow.SEARCH_FOR, searchTerm);
@@ -198,19 +206,21 @@ class SearchAndReplaceWindow extends BulkOperationsWindow {
   }
 
   override handleOk(): void {
-    const action = new SearchAndReplaceAction(Config(SearchAndReplaceAction, {
-      selection: this.getModel().get(BulkOperationsWindow.ITEMS),
-      callback: bind(this, this.updateCallback),
-      searchFor: this.getModel().get(SearchAndReplaceWindow.SEARCH_FOR),
-      replaceWith: this.getModel().get(SearchAndReplaceWindow.REPLACE_WITH),
-      properties: {
-        "teaserTitle": this.getModel().get(SearchAndReplaceWindow.TEASER_TITLE),
-        "teaserText": this.getModel().get(SearchAndReplaceWindow.TEASER_TEXT),
-        "title": this.getModel().get(SearchAndReplaceWindow.TITLE),
-        "detailText": this.getModel().get(SearchAndReplaceWindow.DETAIL_TEXT),
-        "data": this.getModel().get(SearchAndReplaceWindow.DATA),
-      },
-    }));
+    const action = new SearchAndReplaceAction(
+      Config(SearchAndReplaceAction, {
+        selection: this.getModel().get(BulkOperationsWindow.ITEMS),
+        callback: bind(this, this.updateCallback),
+        searchFor: this.getModel().get(SearchAndReplaceWindow.SEARCH_FOR),
+        replaceWith: this.getModel().get(SearchAndReplaceWindow.REPLACE_WITH),
+        properties: {
+          teaserTitle: this.getModel().get(SearchAndReplaceWindow.TEASER_TITLE),
+          teaserText: this.getModel().get(SearchAndReplaceWindow.TEASER_TEXT),
+          title: this.getModel().get(SearchAndReplaceWindow.TITLE),
+          detailText: this.getModel().get(SearchAndReplaceWindow.DETAIL_TEXT),
+          data: this.getModel().get(SearchAndReplaceWindow.DATA),
+        },
+      }),
+    );
     action.execute();
   }
 
@@ -230,7 +240,6 @@ class SearchAndReplaceWindow extends BulkOperationsWindow {
     }
     return this.model;
   }
-
 }
 
 export default SearchAndReplaceWindow;

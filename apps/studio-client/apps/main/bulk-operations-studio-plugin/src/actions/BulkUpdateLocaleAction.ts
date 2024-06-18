@@ -1,12 +1,11 @@
 import Config from "@jangaroo/runtime/Config";
 import BulkOperationAction from "./BulkOperationAction";
 
-interface BulkUpdateLocaleActionConfig extends Config<BulkOperationAction>, Partial<Pick<BulkUpdateLocaleAction,
-        "locale">> {
-}
+interface BulkUpdateLocaleActionConfig
+  extends Config<BulkOperationAction>,
+    Partial<Pick<BulkUpdateLocaleAction, "locale">> {}
 
 class BulkUpdateLocaleAction extends BulkOperationAction {
-
   declare Config: BulkUpdateLocaleActionConfig;
 
   locale: string = null;
@@ -27,7 +26,6 @@ class BulkUpdateLocaleAction extends BulkOperationAction {
       languageTag: languageTag,
     };
   }
-
 }
 
 export default BulkUpdateLocaleAction;

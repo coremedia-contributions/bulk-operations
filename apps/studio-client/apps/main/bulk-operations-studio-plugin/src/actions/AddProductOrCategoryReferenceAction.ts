@@ -1,11 +1,9 @@
 import Config from "@jangaroo/runtime/Config";
 import BulkOperationAction from "./BulkOperationAction";
 
-interface AddProductOrCategoryReferenceActionConfig extends Config<BulkOperationAction>, Partial<Pick<AddProductOrCategoryReferenceAction,
-  "references" |
-  "overrideValue"
->> {
-}
+interface AddProductOrCategoryReferenceActionConfig
+  extends Config<BulkOperationAction>,
+    Partial<Pick<AddProductOrCategoryReferenceAction, "references" | "overrideValue">> {}
 
 class AddProductOrCategoryReferenceAction extends BulkOperationAction {
   declare Config: AddProductOrCategoryReferenceActionConfig;
@@ -21,7 +19,11 @@ class AddProductOrCategoryReferenceAction extends BulkOperationAction {
   }
 
   protected override execBulkOperation(): void {
-    const params: any = AddProductOrCategoryReferenceAction.#makeRequestParameters(this.selection, this.references, this.overrideValue);
+    const params: any = AddProductOrCategoryReferenceAction.#makeRequestParameters(
+      this.selection,
+      this.references,
+      this.overrideValue,
+    );
     this.execRemoteAction("addorupdatereferences", params);
   }
 
@@ -32,7 +34,6 @@ class AddProductOrCategoryReferenceAction extends BulkOperationAction {
       overrideValue: overrideValue,
     };
   }
-
 }
 
 export default AddProductOrCategoryReferenceAction;

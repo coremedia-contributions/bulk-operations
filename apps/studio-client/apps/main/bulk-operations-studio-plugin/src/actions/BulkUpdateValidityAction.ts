@@ -2,14 +2,11 @@ import Calendar from "@coremedia/studio-client.client-core/data/Calendar";
 import Config from "@jangaroo/runtime/Config";
 import BulkOperationAction from "./BulkOperationAction";
 
-interface BulkUpdateValidityActionConfig extends Config<BulkOperationAction>, Partial<Pick<BulkUpdateValidityAction,
-        "validFrom" | "validTo">> {
-}
-
-const DATE_FORMAT: string = "d.m.Y-H:i";
+interface BulkUpdateValidityActionConfig
+  extends Config<BulkOperationAction>,
+    Partial<Pick<BulkUpdateValidityAction, "validFrom" | "validTo">> {}
 
 class BulkUpdateValidityAction extends BulkOperationAction {
-
   declare Config: BulkUpdateValidityActionConfig;
 
   validFrom: Calendar = null;
@@ -34,7 +31,6 @@ class BulkUpdateValidityAction extends BulkOperationAction {
       validTo: validTo,
     };
   }
-
 }
 
 export default BulkUpdateValidityAction;

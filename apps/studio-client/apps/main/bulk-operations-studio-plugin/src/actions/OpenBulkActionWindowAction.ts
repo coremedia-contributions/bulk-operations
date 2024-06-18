@@ -4,12 +4,9 @@ import ComponentManager from "@jangaroo/ext-ts/ComponentManager";
 import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 
-interface OpenBulkActionWindowActionConfig extends Config<ContentAction>, Partial<Pick<OpenBulkActionWindowAction,
-  "contentType" |
-  "multiSelect" |
-  "windowConfig"
->> {
-}
+interface OpenBulkActionWindowActionConfig
+  extends Config<ContentAction>,
+    Partial<Pick<OpenBulkActionWindowAction, "contentType" | "multiSelect" | "windowConfig">> {}
 
 class OpenBulkActionWindowAction extends ContentAction {
   declare Config: OpenBulkActionWindowActionConfig;
@@ -21,12 +18,14 @@ class OpenBulkActionWindowAction extends ContentAction {
   windowConfig: any = null;
 
   constructor(config: Config<OpenBulkActionWindowAction> = null) {
-    super((()=>{
-      this.multiSelect = config.multiSelect;
-      this.contentType = config.contentType;
-      this.windowConfig = config.windowConfig;
-      return Config(ContentAction, Object.assign({}, { handler: bind(this, this.#showWindow) }, config));
-    })());
+    super(
+      (() => {
+        this.multiSelect = config.multiSelect;
+        this.contentType = config.contentType;
+        this.windowConfig = config.windowConfig;
+        return Config(ContentAction, Object.assign({}, { handler: bind(this, this.#showWindow) }, config));
+      })(),
+    );
   }
 
   /**
@@ -38,7 +37,7 @@ class OpenBulkActionWindowAction extends ContentAction {
 
   protected override calculateHidden(): boolean {
     /*
-    * Make sure the content is not a repository tree folder
+     * Make sure the content is not a repository tree folder
      */
     if (!this.getContents() || this.getContents().length == 0) {
       return true;
@@ -47,8 +46,12 @@ class OpenBulkActionWindowAction extends ContentAction {
   }
 
   protected override isDisabledFor(contents: Array<any>): boolean {
-    return contents.some((content: Content): boolean =>
-      !content.getState().readable || !content.isDocument() || (!content.getType().isSubtypeOf(this.contentType) && !content.getType().isSubtypeOf("AMAsset")) || content.isCheckedOutByOther(),
+    return contents.some(
+      (content: Content): boolean =>
+        !content.getState().readable ||
+        !content.isDocument() ||
+        (!content.getType().isSubtypeOf(this.contentType) && !content.getType().isSubtypeOf("AMAsset")) ||
+        content.isCheckedOutByOther(),
     );
   }
 
@@ -56,8 +59,12 @@ class OpenBulkActionWindowAction extends ContentAction {
     if (!this.multiSelect && contents.length > 1) {
       return true;
     }
-    return contents.some((content: Content): boolean =>
-      !content.getState().readable || !content.isDocument() || !content.getType() || (!content.getType().isSubtypeOf(this.contentType) && !content.getType().isSubtypeOf("AMAsset")),
+    return contents.some(
+      (content: Content): boolean =>
+        !content.getState().readable ||
+        !content.isDocument() ||
+        !content.getType() ||
+        (!content.getType().isSubtypeOf(this.contentType) && !content.getType().isSubtypeOf("AMAsset")),
     );
   }
 }

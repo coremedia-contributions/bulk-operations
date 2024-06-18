@@ -19,11 +19,9 @@ import BulkOperations_properties from "../BulkOperations_properties";
 import BulkTagAction from "../actions/BulkTagAction";
 import ItemsList from "./ItemsList";
 
-interface BulkOperationsWindowConfig extends Config<StudioDialog>, Partial<Pick<BulkOperationsWindow,
-  "forceReadOnlyValueExpression" |
-  "selectedItems"
->> {
-}
+interface BulkOperationsWindowConfig
+  extends Config<StudioDialog>,
+    Partial<Pick<BulkOperationsWindow, "forceReadOnlyValueExpression" | "selectedItems">> {}
 
 class BulkOperationsWindow extends StudioDialog {
   declare Config: BulkOperationsWindowConfig;
@@ -35,56 +33,59 @@ class BulkOperationsWindow extends StudioDialog {
   model: Bean = null;
 
   constructor(config: Config<BulkOperationsWindow> = null) {
-    super((()=> ConfigUtils.apply(Config(BulkOperationsWindow, {
-      modal: false,
-      width: 645,
-      resizable: true,
-      resizeHandles: "s",
-      scrollable: false,
-      constrainHeader: true,
-      ui: WindowSkin.GRID_200.getSkin(),
-      layout: Config(AnchorLayout, { anchor: "100%" }),
-      defaultType: Labelable["xtype"],
-      defaults: Config<Labelable>({
-        labelSeparator: "",
-        labelAlign: "top",
-      }),
-      plugins: [
-        Config(VerticalSpacingPlugin, { modifier: SpacingBEMEntities.VERTICAL_SPACING_MODIFIER_200 }),
-      ],
-
-      items: [
-        Config(ItemsList, {
-          bindTo: ValueExpressionFactory.create(BulkOperationsWindow.ITEMS, this.getModel()),
-          selectedVE: ValueExpressionFactory.create(BulkOperationsWindow.SELECTION, this.getModel()),
-        }),
-      ],
-
-      buttons: [
-        Config(Button, {
-          itemId: "okBtn",
-          ui: ButtonSkin.FOOTER_PRIMARY.getSkin(),
-          scale: "small",
-          text: BulkOperations_properties.bulk_edit_dialog_okButton_title,
-          handler: bind(this, this.handleOk),
-          plugins: [
-            Config(BindPropertyPlugin, {
-              bindTo: ValueExpressionFactory.create(BulkOperationsWindow.ITEMS, this.getModel()),
-              transformer: items => !items || items.length == 0,
-              componentProperty: "disabled",
+    super(
+      (() =>
+        ConfigUtils.apply(
+          Config(BulkOperationsWindow, {
+            modal: false,
+            width: 645,
+            resizable: true,
+            resizeHandles: "s",
+            scrollable: false,
+            constrainHeader: true,
+            ui: WindowSkin.GRID_200.getSkin(),
+            layout: Config(AnchorLayout, { anchor: "100%" }),
+            defaultType: Labelable["xtype"],
+            defaults: Config<Labelable>({
+              labelSeparator: "",
+              labelAlign: "top",
             }),
-          ],
-        }),
-        Config(Button, {
-          itemId: "cancelBtn",
-          ui: ButtonSkin.FOOTER_SECONDARY.getSkin(),
-          scale: "small",
-          text: BulkOperations_properties.bulk_edit_dialog_cancelButton_title,
-          handler: bind(this, this.close),
-        }),
-      ],
+            plugins: [Config(VerticalSpacingPlugin, { modifier: SpacingBEMEntities.VERTICAL_SPACING_MODIFIER_200 })],
 
-    }), config))());
+            items: [
+              Config(ItemsList, {
+                bindTo: ValueExpressionFactory.create(BulkOperationsWindow.ITEMS, this.getModel()),
+                selectedVE: ValueExpressionFactory.create(BulkOperationsWindow.SELECTION, this.getModel()),
+              }),
+            ],
+
+            buttons: [
+              Config(Button, {
+                itemId: "okBtn",
+                ui: ButtonSkin.FOOTER_PRIMARY.getSkin(),
+                scale: "small",
+                text: BulkOperations_properties.bulk_edit_dialog_okButton_title,
+                handler: bind(this, this.handleOk),
+                plugins: [
+                  Config(BindPropertyPlugin, {
+                    bindTo: ValueExpressionFactory.create(BulkOperationsWindow.ITEMS, this.getModel()),
+                    transformer: (items) => !items || items.length == 0,
+                    componentProperty: "disabled",
+                  }),
+                ],
+              }),
+              Config(Button, {
+                itemId: "cancelBtn",
+                ui: ButtonSkin.FOOTER_SECONDARY.getSkin(),
+                scale: "small",
+                text: BulkOperations_properties.bulk_edit_dialog_cancelButton_title,
+                handler: bind(this, this.close),
+              }),
+            ],
+          }),
+          config,
+        ))(),
+    );
   }
 
   forceReadOnlyValueExpression: ValueExpression = null;
@@ -96,16 +97,17 @@ class BulkOperationsWindow extends StudioDialog {
       this.model = beanFactory._.createLocalBean({});
       this.model.set(BulkOperationsWindow.ITEMS, []);
       this.model.set(BulkOperationsWindow.SELECTION, []);
-
     }
     return this.model;
   }
 
   handleOk(): void {
-    const action = new BulkTagAction(Config(BulkTagAction, {
-      selection: this.getModel().get(BulkOperationsWindow.ITEMS),
-      callback: bind(this, this.updateCallback),
-    }));
+    const action = new BulkTagAction(
+      Config(BulkTagAction, {
+        selection: this.getModel().get(BulkOperationsWindow.ITEMS),
+        callback: bind(this, this.updateCallback),
+      }),
+    );
     action.execute();
   }
 
@@ -120,7 +122,6 @@ class BulkOperationsWindow extends StudioDialog {
   set selectedItems(value: Array<Content>) {
     this.getModel().set(BulkOperationsWindow.ITEMS, value);
   }
-
 }
 
 export default BulkOperationsWindow;

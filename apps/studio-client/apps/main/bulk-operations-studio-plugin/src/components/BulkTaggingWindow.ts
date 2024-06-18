@@ -16,12 +16,9 @@ import BulkTagAction from "../actions/BulkTagAction";
 import BulkOperationsWindow from "./BulkOperationsWindow";
 import ItemsList from "./ItemsList";
 
-interface BulkTaggingWindowConfig extends Config<BulkOperationsWindow>, Partial<Pick<BulkTaggingWindow,
-  "checkboxText" |
-  "taxonomyPropertyName" |
-  "taxonomyId"
->> {
-}
+interface BulkTaggingWindowConfig
+  extends Config<BulkOperationsWindow>,
+    Partial<Pick<BulkTaggingWindow, "checkboxText" | "taxonomyPropertyName" | "taxonomyId">> {}
 
 class BulkTaggingWindow extends BulkOperationsWindow {
   declare Config: BulkTaggingWindowConfig;
@@ -29,39 +26,44 @@ class BulkTaggingWindow extends BulkOperationsWindow {
   static readonly OVERRIDE_CHECKER: string = "overrideChecker";
 
   constructor(config: Config<BulkTaggingWindow> = null) {
-    super((()=> ConfigUtils.apply(Config(BulkTaggingWindow, {
-      items: [
-        Config(TaxonomyLinkListPropertyField, {
-          propertyName: config.taxonomyPropertyName,
-          taxonomyIdExpression: ValueExpressionFactory.createFromValue(config.taxonomyId),
-          bindTo: ValueExpressionFactory.create("", this.getModel(config.taxonomyPropertyName)),
-          ...{ emptyTextOverride: BulkOperations_properties.bulk_tag_dialog_taxonomy_emptyText },
-          forceReadOnlyValueExpression: config.forceReadOnlyValueExpression,
-          ...{ linksValueExpression: this.getTaxonomiesValueExpression(config.taxonomyPropertyName) },
-          anchor: "100%",
-        }),
-        Config(Checkbox, {
-          hideLabel: true,
-          boxLabel: config.checkboxText,
-          anchor: "100%",
-          plugins: [
-            Config(BindPropertyPlugin, {
-              bidirectional: true,
-              bindTo: new ConfigBasedValueExpression({
-                context: this.getModel(),
-                expression: BulkTaggingWindow.OVERRIDE_CHECKER,
+    super(
+      (() =>
+        ConfigUtils.apply(
+          Config(BulkTaggingWindow, {
+            items: [
+              Config(TaxonomyLinkListPropertyField, {
+                propertyName: config.taxonomyPropertyName,
+                taxonomyIdExpression: ValueExpressionFactory.createFromValue(config.taxonomyId),
+                bindTo: ValueExpressionFactory.create("", this.getModel(config.taxonomyPropertyName)),
+                ...{ emptyTextOverride: BulkOperations_properties.bulk_tag_dialog_taxonomy_emptyText },
+                forceReadOnlyValueExpression: config.forceReadOnlyValueExpression,
+                ...{ linksValueExpression: this.getTaxonomiesValueExpression(config.taxonomyPropertyName) },
+                anchor: "100%",
               }),
-            }),
-          ],
-        }),
+              Config(Checkbox, {
+                hideLabel: true,
+                boxLabel: config.checkboxText,
+                anchor: "100%",
+                plugins: [
+                  Config(BindPropertyPlugin, {
+                    bidirectional: true,
+                    bindTo: new ConfigBasedValueExpression({
+                      context: this.getModel(),
+                      expression: BulkTaggingWindow.OVERRIDE_CHECKER,
+                    }),
+                  }),
+                ],
+              }),
 
-        Config(ItemsList, {
-          bindTo: ValueExpressionFactory.create(BulkTaggingWindow.ITEMS, this.getModel()),
-          selectedVE: ValueExpressionFactory.create(BulkTaggingWindow.SELECTION, this.getModel()),
-        }),
-      ],
-
-    }), config))());
+              Config(ItemsList, {
+                bindTo: ValueExpressionFactory.create(BulkTaggingWindow.ITEMS, this.getModel()),
+                selectedVE: ValueExpressionFactory.create(BulkTaggingWindow.SELECTION, this.getModel()),
+              }),
+            ],
+          }),
+          config,
+        ))(),
+    );
   }
 
   override getModel(taxonomyPropertyName?: string): Bean {
@@ -73,18 +75,10 @@ class BulkTaggingWindow extends BulkOperationsWindow {
         properties: propsBean,
         type: session._.getConnection().getContentRepository().getContentType("CMTeasable"),
       });
-      bean["getPath"] = ((): string =>
-        undefined
-      );
-      bean["getUriPath"] = ((): string =>
-        undefined
-      );
-      bean["isRoot"] = ((): boolean =>
-        true
-      );
-      bean["getParent"] = ((): Content =>
-        undefined
-      );
+      bean["getPath"] = (): string => undefined;
+      bean["getUriPath"] = (): string => undefined;
+      bean["isRoot"] = (): boolean => true;
+      bean["getParent"] = (): Content => undefined;
 
       this.model = bean;
 
@@ -98,19 +92,23 @@ class BulkTaggingWindow extends BulkOperationsWindow {
   }
 
   override handleOk(): void {
-    const action = new BulkTagAction(Config(BulkTagAction, {
-      selection: this.getModel().get(BulkTaggingWindow.ITEMS),
-      callback: bind(this, this.#updateCallback),
-      taxonomyPropertyName: this.taxonomyPropertyName,
-      taxonomyItems: this.taxonomyListExp.getValue(),
-      taxonomyCheckBoxValue: this.getModel().get(BulkTaggingWindow.OVERRIDE_CHECKER),
-    }));
+    const action = new BulkTagAction(
+      Config(BulkTagAction, {
+        selection: this.getModel().get(BulkTaggingWindow.ITEMS),
+        callback: bind(this, this.#updateCallback),
+        taxonomyPropertyName: this.taxonomyPropertyName,
+        taxonomyItems: this.taxonomyListExp.getValue(),
+        taxonomyCheckBoxValue: this.getModel().get(BulkTaggingWindow.OVERRIDE_CHECKER),
+      }),
+    );
     action.execute();
   }
 
   getTaxonomiesValueExpression(taxonomyPropertyName: string): ValueExpression {
     if (!this.taxonomyListExp) {
-      this.taxonomyListExp = ValueExpressionFactory.create("properties", this.getModel(taxonomyPropertyName)).extendBy(taxonomyPropertyName);
+      this.taxonomyListExp = ValueExpressionFactory.create("properties", this.getModel(taxonomyPropertyName)).extendBy(
+        taxonomyPropertyName,
+      );
     }
     return this.taxonomyListExp;
   }
@@ -126,7 +124,6 @@ class BulkTaggingWindow extends BulkOperationsWindow {
   taxonomyId: string = null;
 
   taxonomyListExp: ValueExpression = null;
-
 }
 
 export default BulkTaggingWindow;
