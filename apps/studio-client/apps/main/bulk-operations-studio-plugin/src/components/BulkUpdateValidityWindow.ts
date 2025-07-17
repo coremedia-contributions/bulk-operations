@@ -5,8 +5,6 @@ import beanFactory from "@coremedia/studio-client.client-core/data/beanFactory";
 import StatefulDateTimeField from "@coremedia/studio-client.ext.base-components/fields/StatefulDateTimeField";
 import NameColumn from "@coremedia/studio-client.ext.cap-base-components/columns/NameColumn";
 import StatusColumn from "@coremedia/studio-client.ext.cap-base-components/columns/StatusColumn";
-import TypeIconColumn from "@coremedia/studio-client.ext.cap-base-components/columns/TypeIconColumn";
-import LinkListThumbnailColumn from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailColumn";
 import Editor_properties from "@coremedia/studio-client.main.editor-components/Editor_properties";
 import DateUtil from "@jangaroo/ext-ts/Date";
 import DataField from "@jangaroo/ext-ts/data/field/Field";
@@ -19,6 +17,8 @@ import BulkOperations_properties from "../BulkOperations_properties";
 import BulkUpdateValidityAction from "../actions/BulkUpdateValidityAction";
 import BulkOperationsWindow from "./BulkOperationsWindow";
 import ItemsList from "./ItemsList";
+import LinkListThumbnailWithTypeColumn
+  from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailWithTypeColumn";
 
 interface BulkUpdateValidityWindowConfig extends Config<BulkOperationsWindow> {}
 
@@ -83,8 +83,7 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
                   }),
                 ],
                 columns: [
-                  Config(LinkListThumbnailColumn),
-                  Config(TypeIconColumn),
+                  Config(LinkListThumbnailWithTypeColumn),
                   Config(NameColumn, { flex: 2 }),
                   Config(Column, {
                     header: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label,

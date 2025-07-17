@@ -4,8 +4,6 @@ import Locale from "@coremedia/studio-client.client-core/data/Locale";
 import ValueExpressionFactory from "@coremedia/studio-client.client-core/data/ValueExpressionFactory";
 import NameColumn from "@coremedia/studio-client.ext.cap-base-components/columns/NameColumn";
 import StatusColumn from "@coremedia/studio-client.ext.cap-base-components/columns/StatusColumn";
-import TypeIconColumn from "@coremedia/studio-client.ext.cap-base-components/columns/TypeIconColumn";
-import LinkListThumbnailColumn from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailColumn";
 import DataField from "@coremedia/studio-client.ext.ui-components/store/DataField";
 import EditorContextImpl from "@coremedia/studio-client.main.editor-components/sdk/EditorContextImpl";
 import editorContext from "@coremedia/studio-client.main.editor-components/sdk/editorContext";
@@ -19,6 +17,8 @@ import BulkOperations_properties from "../BulkOperations_properties";
 import BulkUpdateLocaleAction from "../actions/BulkUpdateLocaleAction";
 import BulkOperationsWindow from "./BulkOperationsWindow";
 import ItemsList from "./ItemsList";
+import LinkListThumbnailWithTypeColumn
+  from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailWithTypeColumn";
 
 interface BulkUpdateLocaleWindowConfig extends Config<BulkOperationsWindow> {}
 
@@ -59,8 +59,7 @@ class BulkUpdateLocaleWindow extends BulkOperationsWindow {
                   }),
                 ],
                 columns: [
-                  Config(LinkListThumbnailColumn),
-                  Config(TypeIconColumn),
+                  Config(LinkListThumbnailWithTypeColumn),
                   Config(NameColumn, { flex: 2 }),
                   Config(Column, {
                     header: "Locale",

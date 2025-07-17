@@ -3,8 +3,6 @@ import ValueExpression from "@coremedia/studio-client.client-core/data/ValueExpr
 import MemoryLinkListWrapper from "@coremedia/studio-client.content-link-list-models/MemoryLinkListWrapper";
 import NameColumn from "@coremedia/studio-client.ext.cap-base-components/columns/NameColumn";
 import StatusColumn from "@coremedia/studio-client.ext.cap-base-components/columns/StatusColumn";
-import TypeIconColumn from "@coremedia/studio-client.ext.cap-base-components/columns/TypeIconColumn";
-import LinkListThumbnailColumn from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailColumn";
 import IconButton from "@coremedia/studio-client.ext.ui-components/components/IconButton";
 import CollapsiblePanel from "@coremedia/studio-client.ext.ui-components/components/panel/CollapsiblePanel";
 import BindPropertyPlugin from "@coremedia/studio-client.ext.ui-components/plugins/BindPropertyPlugin";
@@ -19,13 +17,13 @@ import Toolbar from "@jangaroo/ext-ts/toolbar/Toolbar";
 import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
+import LinkListThumbnailWithTypeColumn from "@coremedia/studio-client.ext.content-link-list-components/columns/LinkListThumbnailWithTypeColumn";
 import BulkOperations_properties from "../BulkOperations_properties";
 
 interface ItemsListConfig extends Config<ContentGridPanel>, Partial<Pick<ItemsList, "bindTo" | "selectedVE">> {}
 
 const DEFAULT_COLUMNS = [
-  Config(LinkListThumbnailColumn),
-  Config(TypeIconColumn),
+  Config(LinkListThumbnailWithTypeColumn),
   Config(NameColumn, { flex: 2 }),
   Config(StatusColumn),
 ];
