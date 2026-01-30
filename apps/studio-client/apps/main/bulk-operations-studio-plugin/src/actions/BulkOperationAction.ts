@@ -1,10 +1,10 @@
 import { AnyFunction } from "@jangaroo/runtime/types";
-import RemoteServiceMethodResponse from "@coremedia/studio-client.client-core-impl/data/impl/RemoteServiceMethodResponse";
+import RemoteServiceMethodResponse from "@coremedia/studio-client.client-core/data/impl/RemoteServiceMethodResponse";
 import { as, bind } from "@jangaroo/runtime";
 import Content from "@coremedia/studio-client.cap-rest-client/content/Content";
 import MessageBoxWindow from "@jangaroo/ext-ts/window/MessageBox";
 import ProcessorFactory from "@coremedia/studio-client.main.editor-components/sdk/quickcreate/processing/ProcessorFactory";
-import RemoteServiceMethod from "@coremedia/studio-client.client-core-impl/data/impl/RemoteServiceMethod";
+import RemoteServiceMethod from "@coremedia/studio-client.client-core/data/impl/RemoteServiceMethod";
 import Config from "@jangaroo/runtime/Config";
 import Action from "@jangaroo/ext-ts/Action";
 import BulkOperations_properties from "../BulkOperations_properties";
