@@ -1,4 +1,3 @@
-import BlueprintDocumentTypes_properties from "@coremedia-blueprint/studio-client.main.blueprint-forms/BlueprintDocumentTypes_properties";
 import Bean from "@coremedia/studio-client.client-core/data/Bean";
 import ValueExpressionFactory from "@coremedia/studio-client.client-core/data/ValueExpressionFactory";
 import beanFactory from "@coremedia/studio-client.client-core/data/beanFactory";
@@ -24,6 +23,7 @@ import BulkOperations_properties from "../BulkOperations_properties";
 import SearchAndReplaceAction from "../actions/SearchAndReplaceAction";
 import BulkOperationsWindow from "./BulkOperationsWindow";
 import ItemsList from "./ItemsList";
+import { ContentLocalizationUtil } from "@coremedia/studio-client.cap-base-models";
 
 interface SearchAndReplaceWindowConfig extends Config<BulkOperationsWindow> {}
 
@@ -109,7 +109,7 @@ class SearchAndReplaceWindow extends BulkOperationsWindow {
                     items: [
                       Config(Checkbox, {
                         hideLabel: true,
-                        boxLabel: BlueprintDocumentTypes_properties.CMTeasable_teaserTitle_text,
+                        boxLabel: ContentLocalizationUtil.getPropertyLocalization("CMTeasable", "teaserTitle"),
                         plugins: [
                           Config(BindPropertyPlugin, {
                             bidirectional: true,
@@ -122,7 +122,7 @@ class SearchAndReplaceWindow extends BulkOperationsWindow {
                       }),
                       Config(Checkbox, {
                         hideLabel: true,
-                        boxLabel: BlueprintDocumentTypes_properties.CMTeasable_teaserText_text,
+                        boxLabel: ContentLocalizationUtil.getPropertyLocalization("CMTeasable", "teaserText"),
                         plugins: [
                           Config(BindPropertyPlugin, {
                             bidirectional: true,
@@ -135,7 +135,7 @@ class SearchAndReplaceWindow extends BulkOperationsWindow {
                       }),
                       Config(Checkbox, {
                         hideLabel: true,
-                        boxLabel: BlueprintDocumentTypes_properties.CMLinkable_title_text,
+                        boxLabel: ContentLocalizationUtil.getPropertyLocalization("CMLinkable", "title"),
                         plugins: [
                           Config(BindPropertyPlugin, {
                             bidirectional: true,
@@ -148,7 +148,7 @@ class SearchAndReplaceWindow extends BulkOperationsWindow {
                       }),
                       Config(Checkbox, {
                         hideLabel: true,
-                        boxLabel: BlueprintDocumentTypes_properties.CMTeasable_detailText_text,
+                        boxLabel: ContentLocalizationUtil.getPropertyLocalization("CMTeasable", "detailText"),
                         plugins: [
                           Config(BindPropertyPlugin, {
                             bidirectional: true,
@@ -161,7 +161,7 @@ class SearchAndReplaceWindow extends BulkOperationsWindow {
                       }),
                       Config(Checkbox, {
                         hideLabel: true,
-                        boxLabel: BlueprintDocumentTypes_properties.CMHTML_data_text,
+                        boxLabel: ContentLocalizationUtil.getPropertyLocalization("CMHTML", "data"),
                         plugins: [
                           Config(BindPropertyPlugin, {
                             bidirectional: true,
