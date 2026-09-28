@@ -10,6 +10,7 @@ import DateUtil from "@jangaroo/ext-ts/Date";
 import DataField from "@jangaroo/ext-ts/data/field/Field";
 import DisplayField from "@jangaroo/ext-ts/form/field/Display";
 import Column from "@jangaroo/ext-ts/grid/column/Column";
+import HBoxLayout from "@jangaroo/ext-ts/layout/container/HBox";
 import { bind } from "@jangaroo/runtime";
 import Config from "@jangaroo/runtime/Config";
 import ConfigUtils from "@jangaroo/runtime/ConfigUtils";
@@ -38,6 +39,8 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
     "America/Los_Angeles",
   ];
 
+  static readonly DEFAULT_TIME_ZONE_ID: string = "Europe/Berlin";
+
   constructor(config: Config<BulkUpdateValidityWindow> = null) {
     super(
       (() =>
@@ -53,19 +56,23 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
                 itemId: "validFrom",
                 ariaLabel: Editor_properties.Date_property_field,
                 timeZoneIds: BulkUpdateValidityWindow.DEFAULT_TIME_ZONE_IDS,
+                defaultTimeZone: BulkUpdateValidityWindow.DEFAULT_TIME_ZONE_ID,
                 propertyName: BulkUpdateValidityWindow.VALID_FROM,
                 bindTo: ValueExpressionFactory.create("properties", this.getModel()),
                 timeZoneHidden: false,
                 fieldLabel: BulkOperations_properties.bulk_edit_dialog_updateValidity_validFrom_label,
+                layout: Config(HBoxLayout, { align: "middle" }),
               }),
               Config(StatefulDateTimeField, {
                 itemId: "validTo",
                 ariaLabel: Editor_properties.Date_property_field,
                 timeZoneIds: BulkUpdateValidityWindow.DEFAULT_TIME_ZONE_IDS,
+                defaultTimeZone: BulkUpdateValidityWindow.DEFAULT_TIME_ZONE_ID,
                 propertyName: BulkUpdateValidityWindow.VALID_TO,
                 bindTo: ValueExpressionFactory.create("properties", this.getModel()),
                 timeZoneHidden: false,
                 fieldLabel: BulkOperations_properties.bulk_edit_dialog_updateValidity_validTo_label,
+                layout: Config(HBoxLayout, { align: "middle" }),
               }),
               Config(ItemsList, {
                 bindTo: ValueExpressionFactory.create(BulkUpdateValidityWindow.ITEMS, this.getModel()),
@@ -122,7 +129,13 @@ class BulkUpdateValidityWindow extends BulkOperationsWindow {
   override getModel(): Bean {
     if (!this.model) {
       super.getModel();
-      this.model.set("properties", beanFactory._.createLocalBean({}));
+      this.model.set(
+        "properties",
+        beanFactory._.createLocalBean({
+          [BulkUpdateValidityWindow.VALID_FROM]: null,
+          [BulkUpdateValidityWindow.VALID_TO]: null,
+        }),
+      );
     }
     return this.model;
   }
