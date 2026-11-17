@@ -1,5 +1,6 @@
 package com.coremedia.blueprint.bulkoperations.studio.bulk;
 
+import com.coremedia.cap.common.CapStructHelper;
 import com.coremedia.cap.content.Content;
 import com.coremedia.cap.struct.Struct;
 import com.coremedia.cap.struct.StructBuilder;
@@ -303,6 +304,41 @@ public class BulkOperationsResource {
    */
   private boolean updateValidity(@NonNull Content item, String property, Calendar cal) {
     boolean updated = false;
+    String storageProperty = property;
+    String metadataProperty = null;
+
+
+    if (item.getType().isSubtypeOf("AMAsset")) {
+      if ("validTo".equals(property)) {
+        storageProperty = "expirationDate";
+        metadataProperty = "expirationDate";
+      } else if ("validFrom".equals(property)) {
+        storageProperty = "validFrom";
+        metadataProperty = "validFrom";
+      }
+    }
+
+    if (metadataProperty != null) {
+      Struct metadata = item.getStruct("metadata");
+      StructBuilder builder = metadata == null
+              ? item.getRepository().getConnection().getStructService().emptyStruct().builder()
+              : metadata.builder();
+      Calendar currentValue = metadata == null ? null : CapStructHelper.getDate(metadata, metadataProperty);
+
+      if (cal == null) {
+        if (currentValue != null) {
+          builder.remove(metadataProperty);
+          item.set("metadata", builder.build());
+          updated = true;
+        }
+      } else if (!cal.equals(currentValue)) {
+        builder.set(storageProperty, cal);
+        item.set("metadata", builder.build());
+        updated = true;
+      }
+      return updated;
+    }
+
     if (cal == null) {
       if (item.get(property) != null) {
         item.set(property, null);
